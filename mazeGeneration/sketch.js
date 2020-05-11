@@ -8,6 +8,14 @@ var h;
 var curCell;
 var stack = [];
 
+var instructions = [
+  'click the mouse to draw on the maze',
+  'hold down any key while clicking to erase',
+  'press r to generate a new maze',
+  'press e to erase all'
+];
+var instructionParagraphs = [];
+
 function setup() {
   createCanvas(601, 601);
   w = (width - 1) / cols;
@@ -20,10 +28,11 @@ function setup() {
 
   cycle();
 
-  console.log('click mouse to draw on maze');
-  console.log('hold down any key while drawing to erase');
-  console.log('press r to generate a new maze');
-  console.log('press e to erase all');
+  if (instructionParagraphs.length <= 0){
+    for (let i = 0; i < instructions.length; i++){
+      instructionParagraphs.push(createP());
+    }
+  }
 }
 
 function createGrid() {
@@ -65,4 +74,8 @@ function draw() {
   background(255);
   UI();
   drawGrid();
+
+  for (let i = 0; i < instructionParagraphs.length; i++){
+    instructionParagraphs[i].html(instructions[i]);
+  }
 }

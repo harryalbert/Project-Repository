@@ -9,6 +9,7 @@ var star = true;
 var dijkstra = false;
 
 var w, h;
+var instructions;
 
 
 function setup() {
@@ -36,6 +37,8 @@ function setup() {
   end = grid[cols - 1][rows - 1];
   start.wall = false;
   end.wall = false;
+  
+  instructions = createP();
 }
 
 function drawGrid() {
@@ -87,4 +90,5 @@ function draw() {
     reset();
   }
   drawGrid();
+  instructions.html("click to add walls \n click while pressing 's' to  place the start \n click while pressing 'e' to place the end \n click while pressing anything else to erase a wall \n click r to restart");
 }

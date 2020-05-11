@@ -38,7 +38,9 @@ function setup() {
   start.wall = false;
   end.wall = false;
   
-  instructions = createP();
+  if (!instructions){
+    instructions = createP();
+  }
 }
 
 function drawGrid() {

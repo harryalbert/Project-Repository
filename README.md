@@ -25,5 +25,4 @@
 
 [Web Based Othello Game](https://harryalbert.github.io/Project-Repository/othello/)
 
-###### A website to showcase my javascript projects
 ###### By Harry Albert

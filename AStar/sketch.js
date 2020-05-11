@@ -90,5 +90,5 @@ function draw() {
     reset();
   }
   drawGrid();
-  instructions.html("click to add walls \n click while pressing 's' to  place the start \n click while pressing 'e' to place the end \n click while pressing anything else to erase a wall \n click r to restart");
+  instructions.html("click to add walls, click while pressing 's' to  place the start, click while pressing 'e' to place the end, click while pressing anything else to erase a wall, r to restart");
 }

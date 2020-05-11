@@ -12,6 +12,6 @@ by Harry Albert
 
 [Maze Generator](https://harryalbert.github.io/projectRepository/MazeGeneration/)
 
-[Random Traversal Maze Generator](https://harryalbert.github.io/projectRepository/randomTraversalMaze/)
+[Random Traversal Maze Generator/solver](https://harryalbert.github.io/projectRepository/randomTraversalMaze/)
 
 [A* Maze Solver](https://harryalbert.github.io/projectRepository/mazeSolver/)

@@ -2,6 +2,8 @@
 A website to showcase my javascript projects
 by Harry Albert
 
+[Google T-rex neural net (using Tensorflow.js)](https://harryalbert.github.io/projectRepository/T-RexNeuralNet/)
+
 [A* search algorithm](https://harryalbert.github.io/projectRepository/AStar/)
 
 [Game of Life](https://harryalbert.github.io/projectRepository/GameOfLife/)

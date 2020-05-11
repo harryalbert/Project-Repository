@@ -106,6 +106,6 @@ function draw() {
   drawGrid();
 
   for (let i = 0; i < instructionParagraphs.length; i++){
-    instructionParagraphs.html(instructions[i]);
+    instructionParagraphs[i].html(instructions[i]);
   }
 }

@@ -2,16 +2,18 @@
 A website to showcase my javascript projects
 by Harry Albert
 
-[A* search algorithm](https://harryalbert.github.io/projectRepository/AStar/)
+[Google T-rex neural net (using Tensorflow.js)](https://harryalbert.github.io/Project-Repository/T-RexNeuralNet/)
 
-[Game of Life](https://harryalbert.github.io/projectRepository/GameOfLife/)
+[A* search algorithm](https://harryalbert.github.io/Project-Repository/AStar/)
 
-[Minesweeper](https://harryalbert.github.io/projectRepository/Minesweeper/)
+[Game of Life](https://harryalbert.github.io/Project-Repository/GameOfLife/)
 
-[Golden Ratio Visualization](https://harryalbert.github.io/projectRepository/goldenRatio/)
+[Minesweeper](https://harryalbert.github.io/Project-Repository/Minesweeper/)
 
-[Maze Generator](https://harryalbert.github.io/projectRepository/MazeGeneration/)
+[Golden Ratio Visualization](https://harryalbert.github.io/Project-Repository/goldenRatio/)
 
-[Random Traversal Maze Generator](https://harryalbert.github.io/projectRepository/randomTraversalMaze/)
+[Maze Generator](https://harryalbert.github.io/Project-Repository/MazeGeneration/)
 
-[A* Maze Solver](https://harryalbert.github.io/projectRepository/mazeSolver/)
+[Random Traversal Maze Generator/solver](https://harryalbert.github.io/Project-Repository/randomTraversalMaze/)
+
+[A* Maze Solver](https://harryalbert.github.io/Project-Repository/mazeSolver/)

@@ -1,7 +1,7 @@
 # My Project Repository
 A website to showcase my javascript projects
 
-[AStar search algorithm](https://harryalbert.github.io/projectRepository/AStar/)
+[A* search algorithm](https://harryalbert.github.io/projectRepository/AStar/)
 
 [Game of Life](https://harryalbert.github.io/projectRepository/GameOfLife/)
 
@@ -13,4 +13,4 @@ A website to showcase my javascript projects
 
 [Random Traversal Maze Generator](https://harryalbert.github.io/projectRepository/randomTraversalMaze/)
 
-[Maze Solver](https://harryalbert.github.io/projectRepository/mazeSolver/)
+[A* Maze Solver](https://harryalbert.github.io/projectRepository/mazeSolver/)

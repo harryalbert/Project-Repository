@@ -19,7 +19,7 @@ function heuristic(a, b) {
   return d;
 }
 
-function printGrid(){
+function printGrid() {
   let nGrid = [];
   for (var i = 0; i < cols; i++) {
     nGrid[i] = new Array(rows);
@@ -33,7 +33,7 @@ function printGrid(){
 
   for (var i = 0; i < cols; i++) {
     for (var j = 0; j < rows; j++) {
-      if (grid[i][j].wall){
+      if (grid[i][j].wall) {
         nGrid[i][j] = 1;
       }
     }
@@ -173,5 +173,28 @@ function reset() {
   end;
   beginSearch = false;
   done = false;
-  setup();
+
+
+  w = width / cols;
+  h = height / rows;
+
+  for (var i = 0; i < cols; i++) {
+    grid[i] = new Array(rows);
+  }
+
+  for (var i = 0; i < cols; i++) {
+    for (var j = 0; j < rows; j++) {
+      grid[i][j] = new Spot(i, j);
+    }
+  }
+  for (var i = 0; i < cols; i++) {
+    for (var j = 0; j < rows; j++) {
+      grid[i][j].addNeighbors(grid);
+    }
+  }
+
+  start = grid[0][0];
+  end = grid[cols - 1][rows - 1];
+  start.wall = false;
+  end.wall = false;
 }

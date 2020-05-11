@@ -2,9 +2,11 @@
 A website to showcase my javascript projects
 by Harry Albert
 
-[A* search algorithm](https://harryalbert.github.io/Project-Repository/AStar/)
+[A* Search Algorithm](https://harryalbert.github.io/Project-Repository/AStar/)
 
-[Google T-rex neural net (using Tensorflow.js)](https://harryalbert.github.io/Project-Repository/T-RexNeuralNet/)
+[Google T-rex Neural Net (using Tensorflow.js)](https://harryalbert.github.io/Project-Repository/T-RexNeuralNet/)
+
+[Gift Wrapping Algorithm](https://harryalbert.github.io/Project-Repository/GiftWrapping/)
 
 [Game of Life](https://harryalbert.github.io/Project-Repository/GameOfLife/)
 
@@ -14,6 +16,6 @@ by Harry Albert
 
 [Maze Generator](https://harryalbert.github.io/Project-Repository/MazeGeneration/)
 
-[Random Traversal Maze Generator/solver](https://harryalbert.github.io/Project-Repository/randomTraversalMaze/)
+[Random Traversal Maze Generator/Solver](https://harryalbert.github.io/Project-Repository/randomTraversalMaze/)
 
 [A* Maze Solver](https://harryalbert.github.io/Project-Repository/mazeSolver/)

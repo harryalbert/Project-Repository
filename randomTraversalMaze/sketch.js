@@ -12,9 +12,13 @@ var solve = false;
 const W = 0;
 const P = 1;
 
+var instructionP;
+
 function setup() {
   createCanvas(cols * w, rows * w);
   createGrid();
+
+  instructionP = createP();
 }
 
 function createGrid() {
@@ -152,4 +156,6 @@ function draw() {
     goal.show(255);
     start.show(255);
   }
+
+  instructionP.html("Press Enter to solve the maze");
 }

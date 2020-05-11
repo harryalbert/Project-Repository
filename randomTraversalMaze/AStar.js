@@ -120,7 +120,7 @@ class Cell {
 }
 
 function keyTyped() {
-  if (key == 's') {
+  if (keyCode == ENTER) {
     if (!solve) {
       solve = true;
       goal = new Cell(g[0], g[1]);

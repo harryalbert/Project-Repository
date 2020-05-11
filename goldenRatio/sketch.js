@@ -11,6 +11,7 @@ var centerRadius = seedSize;
 var change = false;
 var changeRate = 0.00005;
 var gRatio;
+var instructions;
 
 function setup() {
   gRatio = (sqrt(5) - 1) / 2
@@ -18,6 +19,14 @@ function setup() {
   createCanvas(750, 750);
   turnRate = gRatio;
   createSeeds(turnRate);
+
+  instructions = createP();
+}
+
+function keyTyped(){
+  if (key == 'c'){
+    change = !change;
+  }
 }
 
 function createSeeds(rate) {
@@ -53,4 +62,6 @@ function draw() {
     createSeeds(turnRate);
   }
   drawSeeds();
+
+  instructions.html("Press 'c' to change the turn rate (which is initially set to the golden ratio)");
 }

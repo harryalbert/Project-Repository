@@ -1,5 +1,3 @@
-# My Project Repository
-
 ### Algorithm Visualizations
 
 [A* Search Algorithm](https://harryalbert.github.io/Project-Repository/AStar/)

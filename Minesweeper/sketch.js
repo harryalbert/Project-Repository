@@ -22,6 +22,12 @@ var adjacentSpaces = [];
 var flags = [];
 var revealed = [];
 
+var instructions = [
+  "click to reveal a tile",
+  "press 'f' to flag a tile"
+];
+var instructionParagraphs = [];
+
 function setup() {
   screenX = gridX * boxSize;
   screenY = gridY * boxSize;
@@ -32,6 +38,12 @@ function setup() {
   createGrid();
   markadjacentNumber();
   getNumEmpty();
+
+  if (instructionParagraphs.length <= 0){
+    for (let i = 0; i < instructions.length; i++){
+      instructionParagraphs.push(createP());
+    }
+  }
 }
 
 function reset() {
@@ -225,5 +237,9 @@ function draw() {
 
   if (!mouseIsPressed) {
     leftReleased = true;
+  }
+
+  for (let i = 0; i < instructionParagraphs.length; i++){
+    instructionParagraphs[i].html(instructions[i]);
   }
 }

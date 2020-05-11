@@ -12,7 +12,7 @@ by Harry Albert
 
 [Minesweeper](https://harryalbert.github.io/Project-Repository/Minesweeper/)
 
-[Web Based Othello Game](https://harryalbert.github.io/Project-Repository/Othello/)
+[Web Based Othello Game](https://harryalbert.github.io/Project-Repository/othello/)
 
 [Golden Ratio Visualization](https://harryalbert.github.io/Project-Repository/goldenRatio/)
 

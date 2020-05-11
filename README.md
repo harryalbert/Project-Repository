@@ -1,6 +1,4 @@
 # My Project Repository
-A website to showcase my javascript projects
-by Harry Albert
 
 ### Algorithm Visualizations
 
@@ -28,3 +26,6 @@ by Harry Albert
 [Minesweeper](https://harryalbert.github.io/Project-Repository/Minesweeper/)
 
 [Web Based Othello Game](https://harryalbert.github.io/Project-Repository/othello/)
+
+###### A website to showcase my javascript projects
+###### By Harry Albert

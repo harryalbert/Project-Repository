@@ -10,13 +10,22 @@ function keyTyped() {
   if (key == 'r') {
     startOver = true;
   }
-  if (key == 'z'){
-    randomWalls = true;
-    restart();
+  if (key == 'z') {
+    randomWalls = !randomWalls;
+    for (var i = 0; i < grid.length; i++) {
+      for (var j = 0; j < grid[i].length; j++) {
+        if (randomWalls && random() < 0.3) {
+          grid[i][j].wall = true;
+
+        } else {
+          grid[i][j].wall = false;
+        }
+      }
+    }
   }
-  if (key == 'b'){
-    for (var i = 0; i < grid.length; i++){
-      for (var j = 0; j < grid[i].length; j++){
+  if (key == 'b') {
+    for (var i = 0; i < grid.length; i++) {
+      for (var j = 0; j < grid[i].length; j++) {
         grid[i][j].wall = false;
       }
     }
@@ -37,12 +46,12 @@ function interactions() {
     if (mouseX < screenX && mouseY < screenY) {
       let mousePos = mouseToBox(mouseX, mouseY);
       if (keyIsPressed) {
-        if (key == 's'){
+        if (key == 's') {
           start = grid[mousePos[0]][mousePos[1]];
         }
-        if (key == 'e'){
+        if (key == 'e') {
           end = grid[mousePos[0]][mousePos[1]];
-        }else{
+        } else {
           grid[mousePos[0]][mousePos[1]].wall = false;
         }
       } else {

@@ -53,7 +53,7 @@ function Spot(x, y) {
   this.wall = false;
 
   if (randomWalls) {
-    if (random(1) < 0.4) {
+    if (random(1) < 0.3) {
       this.wall = true;
     }
   }

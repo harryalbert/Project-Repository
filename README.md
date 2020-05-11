@@ -1,2 +1,2 @@
-# website
-repository for my project website
+# My Project Repository
+A website to showcase my javascript projects

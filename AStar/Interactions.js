@@ -10,6 +10,17 @@ function keyTyped() {
   if (key == 'r') {
     startOver = true;
   }
+  if (key == 'z'){
+    randomWalls = true;
+    restart();
+  }
+  if (key == 'b'){
+    for (var i = 0; i < grid.length; i++){
+      for (var j = 0; j < grid[i].length; j++){
+        grid[i][j].wall = false;
+      }
+    }
+  }
 }
 
 function interactions() {

@@ -172,7 +172,6 @@ function reset() {
   start;
   end;
   beginSearch = false;
-  randomWalls = true;
   done = false;
   setup();
 }

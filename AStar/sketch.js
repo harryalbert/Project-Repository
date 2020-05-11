@@ -9,8 +9,18 @@ var star = true;
 var dijkstra = false;
 
 var w, h;
-var instructions;
 
+var instructions = [
+  "press enter to start the search",
+  "press 'r' to restart",
+  "press 'b' to erase every wall",
+  "press 'z' to turn on/off random placement of walls",
+  "click to add walls",
+  "click while pressing 's' to place the start",
+  "click while pressing 'e' to place the end",
+  "click while pressing any other button to erase walls",
+];
+var instructionParagraphs = [];
 
 function setup() {
   createCanvas(screenX, screenY);
@@ -37,9 +47,11 @@ function setup() {
   end = grid[cols - 1][rows - 1];
   start.wall = false;
   end.wall = false;
-  
-  if (!instructions){
-    instructions = createP();
+
+  if (instructionParagraphs.length <= 0){
+    for (let i = 0; i < instructions.length; i++){
+      instructionParagraphs.push(createP());
+    }
   }
 }
 
@@ -92,5 +104,8 @@ function draw() {
     reset();
   }
   drawGrid();
-  instructions.html("click to add walls, click while pressing 's' to  place the start, click while pressing 'e' to place the end, click while pressing anything else to erase a wall, r to restart");
+
+  for (let i = 0; i < instructionParagraphs.length; i++){
+    instructionParagraphs.html(instructions[i]);
+  }
 }

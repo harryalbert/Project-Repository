@@ -15,21 +15,12 @@ function keyTyped() {
 }
 
 function interactions() {
-  if (!begin) {
+  if (!begin && mouseIsPressed && mouseX < screenX && mouseY < screenY) {
+    let mousePos = mouseToBox(mouseX, mouseY);
     if (keyIsPressed) {
-      if (keyCode == SHIFT) {
-        if (mouseX < screenX && mouseY < screenY) {
-          let mousePos = mouseToBox(mouseX, mouseY);
-          grid[mousePos[0]][mousePos[1]].alive = false;
-        }
-      }
-    }
-
-    if (mouseIsPressed) {
-      if (mouseX < screenX && mouseY < screenY) {
-        let mousePos = mouseToBox(mouseX, mouseY);
-        grid[mousePos[0]][mousePos[1]].alive = true;
-      }
+      grid[mousePos[0]][mousePos[1]].alive = false;
+    } else {
+      grid[mousePos[0]][mousePos[1]].alive = true;
     }
   }
 }

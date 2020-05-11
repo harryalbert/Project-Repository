@@ -14,6 +14,16 @@ var minH;
 var refreshRate = 10;
 var counter = 0;
 
+//up arrow increases refresh rate, down arrow does opposite, click to kill a cell, click while holding down any key to revive a cell, scroll to zoom in/out
+var instructions = [
+  "press enter to start",
+  "click while pressing nothing to kill a cell",
+  "click while pressing anything to revive a cell",
+  "click the up/down arrows to increse/decrease the refresh rate",
+  "scrole to zoom in/out"
+];
+var instructionParagraphs = [];
+
 function setup() {
   createCanvas(screenX, screenY);
 
@@ -21,6 +31,12 @@ function setup() {
   minH = screenY / gridY;
 
   createGrid();
+
+  if (instructionParagraphs.length <= 0){
+    for (let i = 0; i < instructions.length; i++){
+      instructionParagraphs.push(createP());
+    }
+  }
 }
 
 function createGrid() {
@@ -69,5 +85,9 @@ function draw() {
     for (var y = 0; y < grid[x].length; y++) {
       grid[x][y].draw();
     }
+  }
+
+  for (let i = 0; i < instructionParagraphs.length; i++){
+    instructionParagraphs[i].html(instructions[i]);
   }
 }

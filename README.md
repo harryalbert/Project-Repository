@@ -12,6 +12,8 @@ by Harry Albert
 
 [Minesweeper](https://harryalbert.github.io/Project-Repository/Minesweeper/)
 
+[Web Based Othello Game](https://harryalbert.github.io/Project-Repository/Othello/)
+
 [Golden Ratio Visualization](https://harryalbert.github.io/Project-Repository/goldenRatio/)
 
 [Maze Generator](https://harryalbert.github.io/Project-Repository/MazeGeneration/)

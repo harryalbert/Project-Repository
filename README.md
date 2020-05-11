@@ -23,6 +23,6 @@
 
 [Minesweeper](https://harryalbert.github.io/Project-Repository/Minesweeper/)
 
-[Web Based Othello Game](https://harryalbert.github.io/Project-Repository/othello/)
+[Othello](https://harryalbert.github.io/Project-Repository/othello/)
 
 ###### By Harry Albert

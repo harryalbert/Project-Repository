@@ -1,5 +1,6 @@
 # My Project Repository
 A website to showcase my javascript projects
+by Harry Albert
 
 [A* search algorithm](https://harryalbert.github.io/projectRepository/AStar/)
 

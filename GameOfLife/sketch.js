@@ -1,36 +1,34 @@
 var gridX = 60;
 var gridY = 60;
+var grid = new Array(gridX);
 
 var screenX = 1000;
 var screenY = 700;
 
-var w = 20;
-var h = 20;
-var grid = new Array(gridX);
+var w, h;
 
-var minW;
-var minH;
-
-var refreshRate = 10;
+var refreshRate;
 var counter = 0;
 
 //up arrow increases refresh rate, down arrow does opposite, click to kill a cell, click while holding down any key to revive a cell, scroll to zoom in/out
 var instructions = [
   "press enter to start",
+  "press 'r' to restart",
   "click while pressing nothing to kill a cell",
   "click while pressing anything to revive a cell",
-  "click the up/down arrows to increse/decrease the refresh rate",
-  "scrole to zoom in/out"
+  "move the slider to change the refresh rate"
 ];
 var instructionParagraphs = [];
 
 function setup() {
   createCanvas(screenX, screenY);
 
-  minW = screenX / gridX;
-  minH = screenY / gridY;
+  w = screenX / gridX;
+  h = screenY / gridY;
 
   createGrid();
+
+  refreshRate = createSlider(1, 20, 5, 1);
 
   if (instructionParagraphs.length <= 0){
     for (let i = 0; i < instructions.length; i++){
@@ -62,11 +60,11 @@ function createGrid() {
 
 function draw() {
   background(200);
-  if (!begin) {
-    interactions();
-  } else {
+
+  mouseInteractions();
+  if (begin){
     counter += 1;
-    if (counter >= refreshRate) {
+    if (counter >= refreshRate.value()) {
       counter = 0;
       for (var x = 0; x < grid.length; x++) {
         for (var y = 0; y < grid[x].length; y++) {

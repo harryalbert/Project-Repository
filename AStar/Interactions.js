@@ -22,6 +22,8 @@ function keyTyped() {
         }
       }
     }
+    start.wall = false;
+    end.wall = false;
   }
   if (key == 'b') {
     for (var i = 0; i < grid.length; i++) {

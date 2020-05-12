@@ -8,8 +8,10 @@
 
 [Game of Life](https://harryalbert.github.io/Project-Repository/GameOfLife/)
 
-### Neural Nets
+### AI/Neural Nets
 [Google T-rex Neural Net (using Tensorflow.js)](https://harryalbert.github.io/Project-Repository/T-RexNeuralNet/)
+
+[Tic Tac Toe Min Max](https://harryalbert.github.io/ticTacToeMinmax/)
 
 ### Messing with Mazes
 

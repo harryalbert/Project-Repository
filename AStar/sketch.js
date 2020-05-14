@@ -2,9 +2,6 @@ var cols = 28;
 var rows = 31;
 var grid = new Array(cols);
 
-var screenX = 600;
-var screenY = 600;
-
 var star = true;
 var dijkstra = false;
 
@@ -23,7 +20,7 @@ var instructions = [
 var instructionParagraphs = [];
 
 function setup() {
-  createCanvas(screenX, screenY);
+  createCanvas(windowHeight - 300, windowHeight - 300);
 
   w = width / cols;
   h = height / rows;

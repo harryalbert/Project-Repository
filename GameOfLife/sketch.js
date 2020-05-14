@@ -2,9 +2,6 @@ var gridX = 60;
 var gridY = 60;
 var grid = new Array(gridX);
 
-var screenX = 1000;
-var screenY = 700;
-
 var w, h;
 
 var refreshRate;
@@ -21,10 +18,10 @@ var instructions = [
 var instructionParagraphs = [];
 
 function setup() {
-  createCanvas(screenX, screenY);
+  createCanvas(windowWidth - 150, windowHeight - 200);
 
-  w = screenX / gridX;
-  h = screenY / gridY;
+  w = width / gridX;
+  h = height / gridY;
 
   createGrid();
 

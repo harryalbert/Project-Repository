@@ -17,7 +17,7 @@ var instructions = [
 var instructionParagraphs = [];
 
 function setup() {
-  createCanvas(601, 601);
+  createCanvas(windowHeight - 180, windowHeight - 180);
   w = (width - 1) / cols;
   h = (height - 1) / rows;
 

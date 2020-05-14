@@ -10,7 +10,7 @@ function keyTyped() {
 }
 
 function mouseInteractions(){
-  if (!begin && mouseIsPressed && mouseX < screenX && mouseY < screenY) {
+  if (!begin && mouseIsPressed && mouseX < width && mouseY < height) {
     let mousePos = mouseToBox(mouseX, mouseY);
     if (keyIsPressed) {
       grid[mousePos[0]][mousePos[1]].alive = false;

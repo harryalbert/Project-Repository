@@ -17,7 +17,7 @@ var scoreP;
 var done = false;
 
 function setup() {
-  createCanvas(670, 670);
+  createCanvas(windowHeight - 60, windowHeight - 60);
   createGrid();
 
   w = width / gridSize;

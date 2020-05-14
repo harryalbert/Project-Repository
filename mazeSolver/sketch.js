@@ -13,7 +13,7 @@ var instructions = ['click mouse to draw on maze, hold down any key while drawin
 var ps = [];
 
 function setup() {
-  createCanvas(601, 601);
+  createCanvas(windowHeight - 160, windowHeight - 160);
   w = (width - 1) / cols;
   h = (height - 1) / rows;
 

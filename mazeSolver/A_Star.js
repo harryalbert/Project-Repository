@@ -13,7 +13,7 @@ function removeFromArray(arr, elt) {
 }
 
 function heuristic(a, b) {
-  var d = abs(a.x - b.x) + abs(a.y - b.y);
+  let d = abs(a.x - b.x) + abs(a.y - b.y);
   return d;
 }
 

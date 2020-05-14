@@ -1,6 +1,6 @@
 var cols = 80;
 var rows = 40;
-var w = 10;
+var w;
 
 var grid = new Array(cols);
 var path = [];
@@ -15,7 +15,8 @@ const P = 1;
 var instructionP;
 
 function setup() {
-  createCanvas(cols * w, rows * w);
+  w = (windowHeight - 60) / rows;
+  createCanvas(cols * w, windowHeight - 60);
   createGrid();
 
   instructionP = createP();

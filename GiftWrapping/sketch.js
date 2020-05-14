@@ -11,9 +11,9 @@ var checking;
 var done = false;
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(windowWidth - 5, windowHeight - 5);
   let buffer = 20;
-  for (var i = 0; i < 100; i++) {
+  for (var i = 0; i < 200; i++) {
     points.push(createVector(random(buffer, width - buffer), random(buffer, height - buffer)));
   }
 

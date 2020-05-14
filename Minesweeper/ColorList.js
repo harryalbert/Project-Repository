@@ -5,8 +5,8 @@ var cFlag;
 var cNumbers;
 
 function setColors() {
-  cNonRevealed = color(96, 96, 96);
-  cRevealedEmpty = color(160, 160, 160);
+  cNonRevealed = color(150);
+  cRevealedEmpty = color(200);
   cBomb = color(204, 0, 0);
   cFlag = color(51, 51, 255);
 

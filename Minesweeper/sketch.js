@@ -7,7 +7,7 @@ var dead = false;
 
 var gridX = 40;
 var gridY = 30;
-var boxSize = 23;
+var boxSize;
 var bombChance = 0.12;
 var numEmpty = 0;
 
@@ -29,9 +29,8 @@ var instructions = [
 var instructionParagraphs = [];
 
 function setup() {
-  screenX = gridX * boxSize;
-  screenY = gridY * boxSize;
-  createCanvas(screenX, screenY);
+  boxSize = (windowHeight - 100) / gridY;
+  createCanvas(boxSize * gridX, windowHeight - 100);
 
   setColors();
 
@@ -86,7 +85,7 @@ function createGrid() {
 }
 
 function interactions() {
-  if (mouseX < screenX && mouseY < screenY) {
+  if (mouseX < width && mouseY < height) {
     let boxX = int(mouseX / boxSize);
     let boxY = int(mouseY / boxSize);
     if (mouseButton == LEFT) {
@@ -114,7 +113,7 @@ function interactions() {
 }
 
 function keyTyped() {
-  if (mouseX < screenX && mouseY < screenY) {
+  if (mouseX < width && mouseY < height) {
     let boxX = int(mouseX / boxSize);
     let boxY = int(mouseY / boxSize);
     markFlag(boxX, boxY)
@@ -203,7 +202,7 @@ function winScreen() {
   fill(124, 252, 0);
   textAlign(CENTER);
   textSize(50);
-  text("YOU WIN!", screenX / 2, screenY / 2);
+  text("YOU WIN!", width / 2, height / 2);
 
   if (resetTimer >= 250) {
     reset();
@@ -218,9 +217,9 @@ function deathScreen() {
 
   textAlign(CENTER);
   textSize(50);
-  text("YOU LOSE!", screenX / 2, screenY / 2);
+  text("YOU LOSE!", width / 2, height / 2);
 
-  if (resetTimer >= 250) {
+  if (resetTimer >= 150) {
     reset();
   }
 }

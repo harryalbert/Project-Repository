@@ -12,7 +12,7 @@ var score = 0;
 var scoreP;
 
 function setup() {
-  createCanvas(1000, 300);
+  createCanvas(windowWidth - 150, (windowWidth - 150) / 7);
   tf.setBackend('cpu');
 
   for (let i = 0; i < TOTAL; i++) {

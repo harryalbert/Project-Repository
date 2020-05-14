@@ -37,7 +37,7 @@ function keyTyped() {
 function interactions() {
   if (keyIsPressed) {
     if (keyCode == SHIFT) {
-      if (mouseX < screenX && mouseY < screenY) {
+      if (mouseX < width && mouseY < height) {
         let mousePos = mouseToBox(mouseX, mouseY);
         grid[mousePos[0]][mousePos[1]].wall = false;
       }
@@ -45,7 +45,7 @@ function interactions() {
   }
 
   if (mouseIsPressed) {
-    if (mouseX < screenX && mouseY < screenY) {
+    if (mouseX < width && mouseY < height) {
       let mousePos = mouseToBox(mouseX, mouseY);
       if (keyIsPressed) {
         if (key == 's') {

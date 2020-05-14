@@ -11,6 +11,8 @@
 ### AI/Neural Nets
 [Google T-rex Neural Net (using Tensorflow.js)](https://harryalbert.github.io/Project-Repository/T-RexNeuralNet/)
 
+[Tic-Tac-Toe with AI (using the minmax algorithm)](https://harryalbert.github.io/Project-Repository/ticTacToeMinmax/)
+
 ### Web based games
 [Snake](https://harryalbert.github.io/Project-Repository/snake/)
 

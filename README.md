@@ -14,6 +14,8 @@
 [Tic-Tac-Toe with AI (using the minmax algorithm)](https://harryalbert.github.io/Project-Repository/ticTacToeMinmax/)
 
 ### Web based games
+[Sudoku board creator/solver](https://harryalbert.github.io/Project-Repository/Sodoku/)
+
 [Snake](https://harryalbert.github.io/Project-Repository/snake/)
 
 [Minesweeper](https://harryalbert.github.io/Project-Repository/Minesweeper/)

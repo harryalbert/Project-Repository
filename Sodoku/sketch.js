@@ -12,8 +12,21 @@ var numBlanks = 45; //number of empty spaces at the start of the board
 var createBoard = true; //marks when to create the board
 var animate = false; //whether or not the board creation process is shown
 
+var instructions = [
+  "click a space to select it, type a number to enter it",
+  "press a to turn on/off animations",
+  "press r to create a new board",
+  "press q to check your answers (wrong answers are in the console, F12 to see them)",
+  "press h while a space is selected to highlight it"
+];
+var instructionParagraphs = [];
+
 function setup() {
-  createCanvas(1000, 1000);
+  if (windowWidth > windowHeight){
+    createCanvas(windowHeight - 190, windowHeight - 190);
+  }else{
+    createCanvas(windowWidth - 190, windowWidth - 190);
+  }
 
   screenW = width - (offset * 2);
   screenH = height - (offset * 2);
@@ -29,6 +42,9 @@ function setup() {
   }
 
   createGrid();
+  for (let i = 0; i < instructions.length; i++){
+    instructionParagraphs.push(createP());
+  }
 }
 
 function createGrid() {
@@ -92,49 +108,6 @@ function drawGrid() {
   pop();
 }
 
-function keyTyped() {
-  if (key == 'c') { //creates board (if this is not set to automatically happen)
-    createBoard = !createBoard;
-  }
-  if (key == 's') { //solves board
-    initBoard = true;
-    cSpace = false;
-  }
-  if (key == 'r') { //resets everything
-    restart();
-  }
-  if (key == 'a') { //turns on/off animations
-    animate = !animate;
-  }
-  if (key == 'q') { //checks player's answers
-    checkAnswers();
-  }
-  if (key == 'h' && selected) { //highlights/unhighlights spaces
-    let index = 100; //can't set index to false b/c false and 0 are seen as the same value
-    for (let i = 0; i < highlighted.length; i++) {
-      if (highlighted[i][0] == selected[0] && highlighted[i][1] == selected[1]) {
-        index = i;
-      }
-    }
-    if (index != 100) {
-      highlighted.splice(index, 1);
-    } else {
-      highlighted.push(selected);
-    }
-  }
-}
-
-function keyPressed() {
-  if (selected) { //sets space to number value (if keyboard input is a number)
-    if (unchar(key) >= 49 && unchar(key) <= 57 && !inList(constants, selected)) {
-      grid[selected[0]][selected[1]] = int(key);
-    }
-    if (keyCode == BACKSPACE && !inList(constants, selected)) { //erases a space's value (if it is not origonal)
-      grid[selected[0]][selected[1]] = false;
-    }
-  }
-}
-
 function draw() {
   background(255);
 
@@ -185,4 +158,7 @@ function draw() {
   }
 
   drawGrid();
+  for (let i = 0; i < instructionParagraphs.length; i++){
+    instructionParagraphs[i].html(instructions[i]);
+  }
 }

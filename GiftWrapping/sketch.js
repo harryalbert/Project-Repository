@@ -10,10 +10,12 @@ var checking;
 
 var done = false;
 
+var numPoints = 200;
+
 function setup() {
   createCanvas(windowWidth - 5, windowHeight - 5);
   let buffer = 20;
-  for (var i = 0; i < 200; i++) {
+  for (var i = 0; i < numPoints; i++) {
     points.push(createVector(random(buffer, width - buffer), random(buffer, height - buffer)));
   }
 
@@ -85,7 +87,6 @@ function checkPoints() {
 
   if (index == points.length) {
     if (nextVertex == leftMost) {
-      console.log('done');
       done = true;
     } else {
       hull.push(nextVertex);
@@ -94,6 +95,32 @@ function checkPoints() {
       nextVertex = leftMost;
     }
   }
+}
+
+function keyTyped(){
+  if (key == 'r'){
+    restart();
+  }
+}
+
+function restart(){
+  points = [];
+  hull = [];
+  done = false;
+
+  let buffer = 20;
+  for (var i = 0; i < numPoints; i++) {
+    points.push(createVector(random(buffer, width - buffer), random(buffer, height - buffer)));
+  }
+
+  points.sort((a, b) => a.x - b.x);
+  leftMost = points[0];
+  currentVertex = leftMost;
+  hull.push(currentVertex);
+
+  nextVertex = points[1];
+  index = 2;
+  nextIndex = -1;
 }
 
 function draw() {

@@ -25,6 +25,7 @@ function keyTyped() {
   if (key == 's') { //solves board
     initBoard = true;
     cSpace = false;
+    highlighted = [];
   }
   if (key == 'r') { //resets everything
     restart();

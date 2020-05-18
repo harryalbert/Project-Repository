@@ -158,5 +158,6 @@ function restart() {
   selected = undefined;
 
   grid = [];
+  highlighted = [];
   createGrid();
 }

@@ -7,19 +7,21 @@ var highlighted = []; //marks the numbers highlighted by the player
 var offset = 3; //space between the edge of the screen and the edge of the board
 var w, h; //width and height of each space
 var screenW, screenH; //width and height of the screen (minus the offset)
-var numBlanks = 45; //number of empty spaces at the start of the board
+var numBlanks; //number of empty spaces at the start of the board
 
 var createBoard = true; //marks when to create the board
 var animate = false; //whether or not the board creation process is shown
 
 var instructions = [
   "click a space to select it, type a number to enter it",
+  "adjust the slider to adjust the number of blank spaces at the start",
   "press a to turn on/off animations",
   "press r to create a new board",
   "press q to check your answers (wrong answers are in the console, F12 to see them)",
   "press h while a space is selected to highlight it"
 ];
 var instructionParagraphs = [];
+var difficultySlider;
 
 function setup() {
   if (windowWidth > windowHeight){
@@ -40,11 +42,14 @@ function setup() {
   } else {
     textSize(h / 2);
   }
+  difficultySlider = createSlider(10, 60, 45, 1);
+  numBlanks = difficultySlider.value();
 
   createGrid();
   for (let i = 0; i < instructions.length; i++){
     instructionParagraphs.push(createP());
   }
+
 }
 
 function createGrid() {

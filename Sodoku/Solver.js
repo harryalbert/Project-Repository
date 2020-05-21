@@ -153,7 +153,7 @@ function restart() {
   cSpace = undefined;
   initBoard = true;
   constants = [];
-  numBlanks = 45;
+  numBlanks = difficultySlider.value();
   createBoard = true;
   selected = undefined;
 

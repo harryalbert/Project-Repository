@@ -1,4 +1,5 @@
 //sodoku board creator/solver
+//still need to implement detection if user inputted board is unsolvable (not obviously, but after trying everything)
 
 var grid = []; //game board
 var constants = []; //marks the origonal numbers as permanent
@@ -9,25 +10,28 @@ var w, h; //width and height of each space
 var screenW, screenH; //width and height of the screen (minus the offset)
 var numBlanks; //number of empty spaces at the start of the board
 
-var createBoard = true; //marks when to create the board
 var animate = false; //whether or not the board creation process is shown
 
 var instructions = [
   "click a space to select it, type a number to enter it",
   "adjust the slider to adjust the number of blank spaces at the start",
+  "press s to solve",
   "press a to turn on/off animations",
   "press r to create a new board",
   "press q to check your answers (wrong answers are in the console, F12 to see them)",
   "press h while a space is selected to highlight it"
 ];
 var instructionParagraphs = [];
+
 var difficultySlider;
+var createBoardBox;
+var autoCreateBoard = true;
 
 function setup() {
-  if (windowWidth > windowHeight){
-    createCanvas(windowHeight - 190, windowHeight - 190);
-  }else{
-    createCanvas(windowWidth - 190, windowWidth - 190);
+  if (windowWidth > windowHeight) {
+    createCanvas(windowHeight - 290, windowHeight - 290);
+  } else {
+    createCanvas(windowWidth - 290, windowWidth - 290);
   }
 
   screenW = width - (offset * 2);
@@ -45,11 +49,18 @@ function setup() {
   difficultySlider = createSlider(10, 60, 45, 1);
   numBlanks = difficultySlider.value();
 
+  createBoardBox = createCheckbox('automatically create a board', true);
+  createBoardBox.changed(changedEvent);
+
   createGrid();
-  for (let i = 0; i < instructions.length; i++){
+  for (let i = 0; i < instructions.length; i++) {
     instructionParagraphs.push(createP());
   }
+}
 
+function changedEvent() {
+  autoCreateBoard = this.checked();
+  restart();
 }
 
 function createGrid() {
@@ -64,7 +75,6 @@ function createGrid() {
 
 function drawGrid() {
   //shows grid
-
   push();
 
   //creates space around board
@@ -113,57 +123,60 @@ function drawGrid() {
   pop();
 }
 
+function eraseSpaces() {
+  let x = int(random(9));
+  let y = int(random(9));
+  if (grid[x][y]) {
+    grid[x][y] = false;
+    numBlanks--;
+  }
+}
+
+function markConstants() {
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      if (grid[i][j]) {
+        constants.push([i, j]);
+      }
+    }
+  }
+}
+
 function draw() {
   background(255);
 
-  if (createBoard) {
-    if (animate) { //animates process of creating/solving board
+  if (autoCreateBoard) {
+    if (numBlanks == 0) {
+      markConstants();
+      numBlanks--;
+    } else if (animate) { //animates process of creating/solving board
       if (initBoard) { //creates fully solved grid
         solveGrid();
       } else if (numBlanks > 0) { //erases a set amount of the spaces in this solved board
-        let x = int(random(9));
-        let y = int(random(9));
-        if (grid[x][y]) {
-          grid[x][y] = false;
-          numBlanks--;
-        }
-      } else if (numBlanks == 0) { //marks the spaces with numbers left in them as constants (which can't be changed)
-        for (let i = 0; i < 9; i++) {
-          for (let j = 0; j < 9; j++) {
-            if (grid[i][j]) {
-              constants.push([i, j]);
-            }
-          }
-        }
-        numBlanks--;
+        eraseSpaces();
       }
-    } else { //does the same thing as the previous code, just faster and without animations
+    } else { //same as previous w/o animations
       while (initBoard) {
         solveGrid();
       }
       while (numBlanks > 0) {
-        let x = int(random(9));
-        let y = int(random(9));
-        if (grid[x][y]) {
-          grid[x][y] = false;
-          numBlanks--;
-        }
+        eraseSpaces();
       }
-      if (numBlanks == 0) {
-        for (let i = 0; i < 9; i++) {
-          for (let j = 0; j < 9; j++) {
-            if (grid[i][j]) {
-              constants.push([i, j]);
-            }
-          }
+    }
+  } else {
+    if (initBoard) {
+      if (!animate) {
+        while (initBoard) {
+          solveGrid();
         }
-        numBlanks--;
+      } else {
+        solveGird();
       }
     }
   }
 
   drawGrid();
-  for (let i = 0; i < instructionParagraphs.length; i++){
+  for (let i = 0; i < instructionParagraphs.length; i++) {
     instructionParagraphs[i].html(instructions[i]);
   }
 }

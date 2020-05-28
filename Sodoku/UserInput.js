@@ -2,16 +2,15 @@ var selected;
 
 function mousePressed() {
   //selects space that was clicked
-  if (!initBoard && numBlanks < 0) {
+  if (!initBoard) {
     let mX = int(mouseX / w);
     let mY = int(mouseY / h);
     selected = [mX, mY];
   }
 }
 
-function checkAnswers() {
+function checkAnswers(showWrong = true) {
   //checks if the user's answers are correct
-  //really checks all answers, but the origonal ones are never wrong
   let anyWrong = false;
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
@@ -22,17 +21,26 @@ function checkAnswers() {
     }
   }
 
-  if (!anyWrong){
+  if (!anyWrong && showWrong) {
     console.log("No wrong answers");
   }
+  return anyWrong;
 }
 
 function keyTyped() {
   if (key == 's') { //solves board
-    initBoard = true;
-    cSpace = false;
-    highlighted = [];
-    emptyAnswers();
+    if (autoCreateBoard) {
+      initBoard = true;
+      cSpace = false;
+      numBlanks = -1;
+      highlighted = [];
+      emptyAnswers();
+    } else {
+      if (!checkAnswers(showWrong = false)) {
+        markConstants();
+        initBoard = true;
+      }
+    }
   }
   if (key == 'r') { //resets everything
     restart();
@@ -58,10 +66,10 @@ function keyTyped() {
   }
 }
 
-function emptyAnswers(){
-  for (let i = 0; i < grid.length; i++){
-    for (let j = 0; j < grid[i].length; j++){
-      if (!inList(constants, [i, j])){
+function emptyAnswers() {
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[i].length; j++) {
+      if (!inList(constants, [i, j])) {
         grid[i][j] = false;
       }
     }

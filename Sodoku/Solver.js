@@ -1,11 +1,11 @@
-var possibilities = {}; //list of all possible numbers for each space
-var cSpace; //marks current space to work on
+var possibilities = {}; //all possible numbers for each space
+var cSpace; //space to work on
 
-var allNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]; //list of all possible numbers for copying
-var initBoard = true; //indicates whether or not the board is being created
+var allNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]; //all possible numbers for copying
+var initBoard = true; //is board being created
 
 function inList(list, item) {
-  //checks if a tupple is in a list (for some reason couldn't use the ".includes()" function)
+  //checks if a tupple is in a list (couldn't use the ".includes()" function)
   for (var i = 0; i < list.length; i++) {
     if (list[i][0] == item[0] && list[i][1] == item[1]) {
       return true;
@@ -65,10 +65,9 @@ function checkIfLegal(x, y, num) {
 
 function shiftCurrent(x, y, dir) {
   //shifts current space either forward or backward (if dir = 1 or -1)
-
   x += dir;
 
-  //if x goes past row's boundaries, move y either up or down, reset x
+  //if x goes past row's boundaries, shift y
   if (x < 0) {
     x = 8;
     y -= 1;
@@ -78,15 +77,14 @@ function shiftCurrent(x, y, dir) {
     y += 1;
   }
 
-  //if board is either finished or run out of possibilities, stop creating board
+  //if board is finished, stop creating board
   if (y < 0 || y > 8) {
     initBoard = false;
   }
 
   newSpace = [x, y];
   if (inList(constants, [x, y])) {
-    //for when the computer is solving a board, makes sure the computer is not changing an origonal space
-    //if it is, we just keep going forward/backward until we hit an empty space
+    //makes sure current space isn't selected
     newSpace = shiftCurrent(newSpace[0], newSpace[1], dir);
   }
 
@@ -96,7 +94,7 @@ function shiftCurrent(x, y, dir) {
 function solveGrid() {
   //solves grid (either to create a new grid, or solve a created grid)
   if (!cSpace) {
-    //for starting up, finds the first empty space
+    //finds the first empty space
     cSpace = findEmpty();
     if (!cSpace) {
       //if there is no empty space, we're done
@@ -149,15 +147,16 @@ function solveGrid() {
 
 function restart() {
   //resets everything
-  possibilities = {};
-  cSpace = undefined;
-  initBoard = true;
+  grid = [];
   constants = [];
-  numBlanks = difficultySlider.value();
-  createBoard = true;
+  highlighted = [];
+  possibilities = {};
+
+  cSpace = undefined;
   selected = undefined;
 
-  grid = [];
-  highlighted = [];
+  numBlanks = difficultySlider.value();
+  initBoard = autoCreateBoard;
+
   createGrid();
 }

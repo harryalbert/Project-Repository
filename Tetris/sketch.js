@@ -14,8 +14,18 @@ const F = 1;
 var nextPieces = [];
 var heldPiece = undefined;
 
+var linesCleared = 0;
+var score = 0;
+var level = 0;
+
+var scoreAdditions = [40, 100, 300, 1200];
+var scoreDisplay;
+
+var pause = false;
+var gameOver = false;
+
 function setup() {
-  createCanvas((windowHeight - 5) / 1.2, windowHeight - 5);
+  createCanvas((windowHeight - 55) / 1.2, windowHeight - 55);
   screenY = height;
   screenX = screenY / 2;
   boarderX = width - screenX;
@@ -25,6 +35,22 @@ function setup() {
 
   createGrid();
   currentPiece = new Piece(random(pieces));
+
+  scoreDisplay = createP();
+}
+
+function restart() {
+  heldPiece = undefined;
+
+  linesCleared = 0;
+  score = 0;
+  level = 0;
+
+  pieceSwitched = false;
+
+  createGrid();
+  currentPiece = new Piece(random(pieces));
+  gameOver = false;
 }
 
 function createGrid() {
@@ -36,6 +62,8 @@ function createGrid() {
       grid[i][j] = E;
     }
   }
+
+  nextPieces = [];
   for (let i = 0; i < 3; i++) {
     nextPieces.push(random(pieces));
   }
@@ -52,6 +80,20 @@ function moveDown(ln) {
     for (let j = 0; j < grid.length; j++) {
       grid[j][i + 1] = grid[j][i];
       grid[j][i] = 0;
+    }
+  }
+}
+
+function addToScore(numLines) {
+  linesCleared += numLines;
+  score += scoreAdditions[numLines - 1] * (level + 1);
+
+  if (linesCleared >= 10) {
+    linesCleared -= 10;
+    level += 1;
+
+    if (fallSpeed > 12) {
+      fallSpeed -= 1;
     }
   }
 }
@@ -76,7 +118,7 @@ function lineWipe() {
     for (let i = 0; i < linesToWipe.length; i++) {
       deleteLine(linesToWipe[i]);
       moveDown(linesToWipe[i]);
-      for (let j = i + 1; j < linesToWipe.length; j++){
+      for (let j = i + 1; j < linesToWipe.length; j++) {
         linesToWipe[j] += 1;
       }
     }
@@ -103,12 +145,12 @@ function showNextPieces() {
   noFill();
   rect(screenX + 25, 55, (4 * w), y - 60);
 
-  if (heldPiece){
+  if (heldPiece) {
     y += 80;
     fill(255);
 
-    for (let i = 0; i < heldPiece.length; i++){
-      for (let j = 0; j < heldPiece[i].length; j++){
+    for (let i = 0; i < heldPiece.length; i++) {
+      for (let j = 0; j < heldPiece[i].length; j++) {
         if (heldPiece[i][j] == 1) {
           rect(j * w + x, i * h + y, w, h);
         }
@@ -117,6 +159,19 @@ function showNextPieces() {
     noFill();
     rect(screenX + 25, y - 20, (4 * w), h * heldPiece.length + 40);
   }
+}
+
+function textBox(msg) {
+  textSize(w);
+  let txtWidth = textWidth(msg);
+  textAlign(CENTER, CENTER);
+
+  stroke(255);
+  fill(0);
+  rect((width / 2) - ((txtWidth / 2) + 25), (height / 2) - w, txtWidth + 50, w * 2);
+
+  fill(255);
+  text(msg, width / 2, height / 2);
 }
 
 function drawGrid() {
@@ -140,5 +195,16 @@ function draw() {
   drawGrid();
   showNextPieces();
 
-  currentPiece.update();
+  if (!gameOver) {
+    if (!pause) {
+      currentPiece.update();
+    } else {
+      currentPiece.show();
+      textBox('press p to unpause');
+    }
+  } else {
+    textBox('Game over, press r to restart');
+  }
+
+  scoreDisplay.html("Score: " + str(score));
 }

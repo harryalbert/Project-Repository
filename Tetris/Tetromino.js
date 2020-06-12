@@ -142,12 +142,16 @@ class Piece {
       }
     }
 
-    lineWipe();
-    currentPiece = new Piece(nextPieces[0]);
-    nextPieces.splice(0, 1);
-    nextPieces.push(random(pieces));
+    if (this.y < 0){
+      gameOver = true;
+    }else{
+      lineWipe();
+      currentPiece = new Piece(nextPieces[0]);
+      nextPieces.splice(0, 1);
+      nextPieces.push(random(pieces));
 
-    pieceSwitched = false;
+      pieceSwitched = false;
+    }
   }
 
   fall() {
@@ -157,6 +161,7 @@ class Piece {
         stopped = true;
       } else {
         this.y += 1;
+        score += 1;
       }
     }
     this.place();
@@ -230,6 +235,7 @@ class Piece {
       this.counter++;
       if (this.counter % fallSpeed == 0) {
         this.y += 1;
+        score += 1;
       }
       this.movement();
     } else {
@@ -261,6 +267,12 @@ function holdPiece(){
 function keyTyped() {
   if (key == ' ') {
     currentPiece.fall();
+  }
+  if (key == 'p'){
+    pause = !pause;
+  }
+  if (key == 'r'){
+    restart();
   }
 }
 

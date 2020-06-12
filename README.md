@@ -16,6 +16,8 @@
 ### Web based games
 [Sudoku board creator/solver](https://harryalbert.github.io/Project-Repository/Sodoku/)
 
+[Tetris](https://harryalbert.github.io/Project-Repository/Tetris/)
+
 [Snake](https://harryalbert.github.io/Project-Repository/snake/)
 
 [Minesweeper](https://harryalbert.github.io/Project-Repository/Minesweeper/)
@@ -30,4 +32,4 @@
 
 [Random Traversal Maze Generator/Solver](https://harryalbert.github.io/Project-Repository/randomTraversalMaze/)
 
-###### By Harry Albert
+###### All projects coded by Harry Albert

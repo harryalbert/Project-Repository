@@ -7,20 +7,24 @@ var pieceSwitched = false;
 class Piece {
   constructor(shape) {
     this.permaShape = shape;
+
+    let colIndex = getIndex(this.permaShape);
+    this.col = [colors[colIndex]];
+
     this.shape = [];
-    for (let i = 0; i < shape.length; i++){
+    for (let i = 0; i < shape.length; i++) {
       this.shape[i] = [];
-      for (let j = 0; j < shape[i].length; j++){
+      for (let j = 0; j < shape[i].length; j++) {
         this.shape[i][j] = shape[i][j];
       }
     }
-    this.counter = 1;
 
     this.x = Math.round((gridX / 2) - (this.shape.length / 2));
     this.y = -this.shape.length;
 
     this.falling = true;
     this.placeBuffer = 25;
+    this.counter = 1;
 
     arrowKeys = [UP_ARROW, RIGHT_ARROW, LEFT_ARROW];
     arrowsReleased = [true, true, true];
@@ -138,13 +142,14 @@ class Piece {
       for (let j = 0; j < this.shape[i].length; j++) {
         if (this.shape[i][j] == 1) {
           grid[j + this.x][i + this.y] = F;
+          colorGrid[[j + this.x, i + this.y]] = [...this.col];
         }
       }
     }
 
-    if (this.y < 0){
+    if (this.y < 0) {
       gameOver = true;
-    }else{
+    } else {
       lineWipe();
       currentPiece = new Piece(nextPieces[0]);
       nextPieces.splice(0, 1);
@@ -193,7 +198,7 @@ class Piece {
 
     push();
     strokeWeight(3);
-    stroke(255, 0, 0);
+    stroke(this.col[0], this.col[1], this.col[2]);
     noFill();
     for (let i = 0; i < this.shape.length; i++) {
       for (let j = 0; j < this.shape[i].length; j++) {
@@ -211,7 +216,7 @@ class Piece {
     }
 
     stroke(180);
-    fill(255, 0, 0);
+    fill(this.col[0], this.col[1], this.col[2]);
 
     for (let i = 0; i < this.shape.length; i++) {
       for (let j = 0; j < this.shape[i].length; j++) {
@@ -249,13 +254,13 @@ class Piece {
   }
 }
 
-function holdPiece(){
-  if (heldPiece){
+function holdPiece() {
+  if (heldPiece) {
     placeHolder = currentPiece.permaShape;
 
     currentPiece = new Piece(heldPiece);
     heldPiece = placeHolder;
-  }else{
+  } else {
     heldPiece = currentPiece.permaShape;
 
     currentPiece = new Piece(nextPieces[0]);
@@ -264,20 +269,28 @@ function holdPiece(){
   }
 }
 
+function getIndex(shape) {
+  for (let i = 0; i < pieces.length; i++) {
+    if (pieces[i] == shape) {
+      return i;
+    }
+  }
+}
+
 function keyTyped() {
   if (key == ' ') {
     currentPiece.fall();
   }
-  if (key == 'p'){
+  if (key == 'p') {
     pause = !pause;
   }
-  if (key == 'r'){
+  if (key == 'r') {
     restart();
   }
 }
 
-function keyPressed(){
-  if (key == 'A' && !pieceSwitched){
+function keyPressed() {
+  if (key == 'A' && !pieceSwitched) {
     holdPiece();
     pieceSwitched = true;
   }
@@ -320,3 +333,12 @@ const T = [
   [0, 0, 0]
 ];
 const pieces = [O, I, S, Z, L, J, T];
+var colors = [
+  [255, 255, 0],
+  [0, 255, 255],
+  [0, 255, 0],
+  [255, 0, 0],
+  [255, 153, 51],
+  [0, 0, 255],
+  [127, 0, 255]
+];

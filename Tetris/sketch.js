@@ -1,4 +1,6 @@
 var grid = [];
+var colorGrid = {};
+
 var gridX = 10;
 var gridY = 20;
 
@@ -41,14 +43,15 @@ function setup() {
 
 function restart() {
   heldPiece = undefined;
+  pieceSwitched = false;
 
   linesCleared = 0;
   score = 0;
   level = 0;
 
-  pieceSwitched = false;
-
   createGrid();
+  colorGrid = {};
+
   currentPiece = new Piece(random(pieces));
   gameOver = false;
 }
@@ -126,12 +129,14 @@ function lineWipe() {
 }
 
 function showNextPieces() {
-  stroke(255);
-  fill(255);
+  stroke(180);
 
   let x = screenX + 50;
   let y = 80;
   for (let p of nextPieces) {
+    let col = colors[getIndex(p)];
+    fill(col[0], col[1], col[2]);
+
     for (let i = 0; i < p.length; i++) {
       for (let j = 0; j < p[i].length; j++) {
         if (p[i][j] == 1) {
@@ -146,9 +151,10 @@ function showNextPieces() {
   rect(screenX + 25, 55, (4 * w), y - 60);
 
   if (heldPiece) {
-    y += 80;
-    fill(255);
+    let col = colors[getIndex(heldPiece)];
+    fill(col[0], col[1], col[2]);
 
+    y += 80;
     for (let i = 0; i < heldPiece.length; i++) {
       for (let j = 0; j < heldPiece[i].length; j++) {
         if (heldPiece[i][j] == 1) {
@@ -181,7 +187,7 @@ function drawGrid() {
       if (grid[i][j] == E) {
         fill(50);
       } else {
-        fill(125, 125, 225);
+        fill(colorGrid[[i, j]][0], colorGrid[[i, j]][1], colorGrid[[i, j]][2]);
       }
 
       rect(i * w, j * h, w, h);

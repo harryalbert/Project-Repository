@@ -197,7 +197,7 @@ class Piece {
     }
 
     push();
-    strokeWeight(3);
+    strokeWeight(2);
     stroke(this.col[0], this.col[1], this.col[2]);
     noFill();
     for (let i = 0; i < this.shape.length; i++) {

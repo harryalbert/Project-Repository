@@ -37,7 +37,7 @@ function setup() {
   h = screenY / gridY;
 
   piecesToSpawn = [...pieces];
-  shuffle(piecesToSpawn);
+  shuffle(piecesToSpawn, true);
 
   createGrid();
   currentPiece = new Piece(choosePiece());
@@ -56,7 +56,7 @@ function restart() {
   createGrid();
   colorGrid = {};
   piecesToSpawn = [...pieces];
-  shuffle(piecesToSpawn);
+  shuffle(piecesToSpawn, true);
 
   currentPiece = new Piece(choosePiece());
   gameOver = false;
@@ -81,7 +81,7 @@ function createGrid() {
 function choosePiece(){
   if (piecesToSpawn.length == 0){
     piecesToSpawn = [...pieces];
-    shuffle(piecesToSpawn);
+    shuffle(piecesToSpawn, true);
   }
 
   let chosen = piecesToSpawn[0];

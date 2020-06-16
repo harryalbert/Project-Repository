@@ -6,7 +6,7 @@
 
 [Golden Ratio Visualization](https://harryalbert.github.io/Project-Repository/goldenRatio/)
 
-[Game of Life](https://harryalbert.github.io/Project-Repository/GameOfLife/)
+[Cellular Automata](https://harryalbert.github.io/Project-Repository/generalCelularAutomata/)
 
 ### AI/Neural Nets
 [Google T-rex Neural Net (using Tensorflow.js)](https://harryalbert.github.io/Project-Repository/T-RexNeuralNet/)

@@ -4,10 +4,11 @@ var gY = 50;
 
 var ruleSelect;
 var fpsSlider;
+var ruleInput;
+var randomCheckbox;
 
 var s;
 var ruleset;
-var ruleInput;
 
 var running = false;
 var randomStart = false;
@@ -37,25 +38,33 @@ function setup() {
 
   ruleInput = createInput('');
   ruleInput.input(changeRuleNum);
-}
 
-function changeRuleset(){
-  let selection = ruleSelect.value();
-  if (selection == "Game Of Life"){
-    ruleset = GOL;
-  }else if (selection == "Brian's Brain"){
-    ruleset = BB;
-  }else{
-    ruleset = ECA;
-  }
-
-  reset();
-  mouseIsPressed =false;
+  randomCheckbox = createCheckbox('random start', false);
+  randomCheckbox.changed(changeRandom);
 }
 
 function reset() {
   createGrid();
   running = false;
+}
+
+function changeRuleset() {
+  let selection = ruleSelect.value();
+  if (selection == "Game Of Life") {
+    ruleset = GOL;
+  } else if (selection == "Brian's Brain") {
+    ruleset = BB;
+  } else {
+    ruleset = ECA;
+  }
+
+  reset();
+  mouseIsPressed = false;
+}
+
+function changeRandom() {
+  randomStart = !randomStart;
+  reset();
 }
 
 function createGrid() {
@@ -167,13 +176,13 @@ function draw() {
   background(180);
 
   if (running) {
-    if (frameRate() != fpsSlider.value()){
+    if (frameRate() != fpsSlider.value()) {
       frameRate(fpsSlider.value());
     }
 
     changeCells();
   } else {
-    if (frameRate() != 60){
+    if (frameRate() != 60) {
       frameRate(60);
     }
     editCells();
@@ -187,12 +196,17 @@ function editCells() {
     if (mouseX < width && mouseX > 0 && mouseY < height && mouseY > 0) {
       let mX = int(mouseX / s);
       let mY = int(mouseY / s);
-      if (mouseButton == LEFT) {
-        grid[mX][mY] = A;
-      } else if (mouseButton == RIGHT) {
-        grid[mX][mY] = D;
-      } else if (ruleset == BB) {
-        grid[mX][mY] = M;
+      if (ruleset == BB && keyIsDown(SHIFT)) {
+        grid[mX][mY] = M
+      } else {
+        if (mouseButton == LEFT) {
+          grid[mX][mY] = A;
+        } else if (mouseButton == RIGHT) {
+          grid[mX][mY] = D;
+
+        } else if (ruleset == BB) {
+          grid[mX][mY] = M;
+        }
       }
     }
   }

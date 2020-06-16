@@ -2,11 +2,11 @@
 
 [A* Search Algorithm](https://harryalbert.github.io/Project-Repository/AStar/)
 
+[Cellular Automata](https://harryalbert.github.io/Project-Repository/generalCelularAutomata/)
+
 [Gift Wrapping Algorithm](https://harryalbert.github.io/Project-Repository/GiftWrapping/)
 
 [Golden Ratio Visualization](https://harryalbert.github.io/Project-Repository/goldenRatio/)
-
-[Cellular Automata](https://harryalbert.github.io/Project-Repository/generalCelularAutomata/)
 
 ### AI/Neural Nets
 [Google T-rex Neural Net (using Tensorflow.js)](https://harryalbert.github.io/Project-Repository/T-RexNeuralNet/)

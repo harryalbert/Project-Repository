@@ -14,6 +14,7 @@ const E = 0;
 const F = 1;
 
 var nextPieces = [];
+var piecesToSpawn = [];
 var heldPiece = undefined;
 
 var linesCleared = 0;
@@ -35,8 +36,11 @@ function setup() {
   w = screenX / gridX;
   h = screenY / gridY;
 
+  piecesToSpawn = [...pieces];
+  shuffle(piecesToSpawn);
+
   createGrid();
-  currentPiece = new Piece(random(pieces));
+  currentPiece = new Piece(choosePiece());
 
   scoreDisplay = createP();
 }
@@ -51,8 +55,10 @@ function restart() {
 
   createGrid();
   colorGrid = {};
+  piecesToSpawn = [...pieces];
+  shuffle(piecesToSpawn);
 
-  currentPiece = new Piece(random(pieces));
+  currentPiece = new Piece(choosePiece());
   gameOver = false;
 }
 
@@ -68,8 +74,20 @@ function createGrid() {
 
   nextPieces = [];
   for (let i = 0; i < 3; i++) {
-    nextPieces.push(random(pieces));
+    nextPieces.push(choosePiece());
   }
+}
+
+function choosePiece(){
+  if (piecesToSpawn.length == 0){
+    piecesToSpawn = [...pieces];
+    shuffle(piecesToSpawn);
+  }
+
+  let chosen = piecesToSpawn[0];
+  piecesToSpawn.splice(0, 1);
+
+  return chosen;
 }
 
 function deleteLine(ln) {

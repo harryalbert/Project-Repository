@@ -153,7 +153,7 @@ class Piece {
       lineWipe();
       currentPiece = new Piece(nextPieces[0]);
       nextPieces.splice(0, 1);
-      nextPieces.push(random(pieces));
+      nextPieces.push(choosePiece());
 
       pieceSwitched = false;
     }
@@ -265,7 +265,7 @@ function holdPiece() {
 
     currentPiece = new Piece(nextPieces[0]);
     nextPieces.splice(0, 1);
-    nextPieces.push(random(pieces));
+    nextPieces.push(choosePiece());
   }
 }
 

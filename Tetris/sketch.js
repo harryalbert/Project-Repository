@@ -86,7 +86,7 @@ function choosePiece(){
 
   let chosen = piecesToSpawn[0];
   piecesToSpawn.splice(0, 1);
-  
+
   return chosen;
 }
 
@@ -166,7 +166,7 @@ function showNextPieces() {
   }
 
   noFill();
-  rect(screenX + 25, 55, (4 * w), y - 60);
+  rect(screenX + 25, 55, (4 * w) + 50, y - 60);
 
   if (heldPiece) {
     let col = colors[getIndex(heldPiece)];

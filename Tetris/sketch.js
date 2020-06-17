@@ -87,6 +87,7 @@ function choosePiece(){
   let chosen = piecesToSpawn[0];
   piecesToSpawn.splice(0, 1);
 
+  
   return chosen;
 }
 

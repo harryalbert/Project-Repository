@@ -13,8 +13,7 @@ var numBlanks; //number of empty spaces at the start of the board
 var animate = false; //whether or not the board creation process is shown
 
 var instructions = [
-  "click a space to select it, type a number to enter it",
-  "adjust the slider to adjust the number of blank spaces at the start",
+  "adjust the slider to change the number of blank spaces at the start",
   "press s to solve",
   "press a to turn on/off animations",
   "press r to create a new board",
@@ -29,7 +28,7 @@ var autoCreateBoard = true;
 
 function setup() {
   if (windowWidth > windowHeight) {
-    createCanvas(windowHeight - 290, windowHeight - 290);
+    createCanvas(windowHeight - 250, windowHeight - 250);
   } else {
     createCanvas(windowWidth - 290, windowWidth - 290);
   }

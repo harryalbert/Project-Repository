@@ -61,7 +61,7 @@ function keyTyped() {
     if (index != 100) {
       highlighted.splice(index, 1);
     } else {
-      highlighted.push(selected);
+      highlighted.push([...selected]);
     }
   }
 }

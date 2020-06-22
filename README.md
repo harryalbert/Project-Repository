@@ -4,6 +4,8 @@
 
 [Cellular Automata](https://harryalbert.github.io/Project-Repository/generalCelularAutomata/)
 
+[Rock Paper Scissors Cellular Automata](https://harryalbert.github.io/Project-Repository/RockPaperScissorsCA/)
+
 [Gift Wrapping Algorithm](https://harryalbert.github.io/Project-Repository/GiftWrapping/)
 
 [Golden Ratio Visualization](https://harryalbert.github.io/Project-Repository/goldenRatio/)

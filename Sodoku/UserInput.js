@@ -81,6 +81,7 @@ function keyPressed() {
     if (unchar(key) >= 49 && unchar(key) <= 57 && !inList(constants, selected)) {
       grid[selected[0]][selected[1]] = int(key);
     }
+
     if (keyCode == BACKSPACE && !inList(constants, selected)) { //erases a space's value (if it is not origonal)
       grid[selected[0]][selected[1]] = false;
       let index = 100; //can't set index to false b/c false and 0 are seen as the same value
@@ -91,6 +92,28 @@ function keyPressed() {
       }
       if (index != 100) {
         highlighted.splice(index, 1);
+      }
+    }
+
+    if (keyCode == UP_ARROW){
+      selected[1] -= 1;
+    }
+    if (keyCode == DOWN_ARROW){
+      selected[1] += 1;
+    }
+    if (keyCode == RIGHT_ARROW){
+      selected[0] += 1;
+    }
+    if (keyCode == LEFT_ARROW){
+      selected[0] -= 1;
+    }
+
+    for (let i = 0; i < 2; i++){
+      if (selected[i] < 0){
+        selected[i] = 8;
+      }
+      if (selected[i] > 8){
+        selected[i] = 0;
       }
     }
   }

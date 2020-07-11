@@ -17,6 +17,8 @@ const E = 0;
 
 var pillImgs = [];
 var virusImgs = [];
+var backgroundImg;
+
 function preload() {
   //L = left, R = Right
   //R = Red, Y = yellow, B = blue
@@ -31,17 +33,20 @@ function preload() {
   virusImgs.push(loadImage('Images/YellowVirus.png'));
   virusImgs.push(loadImage('Images/BlueVirus.png'));
 
+  backgroundImg = loadImage('Images/background.png');
+
   angleMode(DEGREES);
 }
 
 function setup() {
-  if (windowWidth > windowHeight) {
-    s = (windowHeight - 5) / gY;
-  } else {
-    s = (widndowWidth - 5) / gX;
+  s = (windowHeight - 5) / gY;
+  while (s * gX * 3 > windowWidth - 5){
+    s -= 1;
   }
 
-  createCanvas(s * gX, s * gY);
+  createCanvas(s * gX * 3, s * gY);
+  backgroundImg.resize(width, height);
+
   createGrid();
   colors = [color(100), color(255, 0, 0), color(255, 255, 0), color(135, 206, 235)];
 
@@ -156,6 +161,10 @@ function dropPills() {
 }
 
 function drawGrid() {
+  stroke(0);
+  fill(0);
+  rect(0, 0, s * gX, s * gY);
+
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[i].length; j++) {
       if (grid[i][j] != E) {
@@ -182,7 +191,10 @@ function printGrid(){
 }
 
 function draw() {
-  background(0);
+  image(backgroundImg, 0, 0);
+
+  push();
+  translate(width / 3, 0);
   drawGrid();
 
   if (!paused){
@@ -200,6 +212,7 @@ function draw() {
   if (!movePillsDown) {
     cPill.show();
   }
+  pop();
 }
 
 function keyTyped(){

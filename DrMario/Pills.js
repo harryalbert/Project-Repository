@@ -2,12 +2,12 @@ var keysReleased = [true, true, true];
 
 class Pill {
   constructor() {
-    this.x = int(gX / 2) - 1;
+    this.x = int(cols / 2) - 1;
     this.y = -1;
 
     this.type = [
-      [int(random(1, 4)), E],
-      [int(random(1, 4)), E]
+      [int(random(1, 4)), int(random(1, 4))],
+      [E, E]
     ];
   }
 
@@ -28,21 +28,18 @@ class Pill {
       this.type[0][1] = typeCopy[0][0];
     }
 
-    if (this.type[0][1] != E && this.type[1][1] != E) {
-      this.type[0][0] = this.type[0][1];
-      this.type[1][0] = this.type[1][1];
-      this.type[0][1] = this.type[1][1] = E;
+    if (this.type[1][0] != E && this.type[1][1] != E) {
+      this.type[0] = [...this.type[1]];
+      this.type[1] = [E, E];
     }
 
     if (this.checkCollisions()) {
       this.type = typeCopy;
 
       let belowGround = false;
-      for (let i = 0; i < 2; i++) {
-        if (this.type[i][1] != E) {
-          if (this.y + 1 >= gY) {
-            belowGround = true;
-          }
+      if (this.type[1][0] != E || this.type[1][1] != E) {
+        if (this.y + 1 >= rows) {
+          belowGround = true;
         }
       }
       if (belowGround) {
@@ -95,19 +92,19 @@ class Pill {
     for (let i = 0; i < this.type.length; i++) {
       for (let j = 0; j < this.type[i].length; j++) {
         if (this.type[i][j] != E) {
-          let x = this.x + i;
-          let y = this.y + j;
+          let x = this.x + j;
+          let y = this.y + i;
           if (placing) {
             y += 1;
           }
 
-          if (y >= gY) {
+          if (y >= rows) {
             return true;
           }
-          if (x < 0 || x >= gX) {
+          if (x < 0 || x >= cols) {
             return true;
           }
-          if (grid[x][y] != E && this.type[i][j] != E) {
+          if (grid[y][x] != E && this.type[i][j] != E) {
             return true;
           }
         }
@@ -121,24 +118,26 @@ class Pill {
     for (let i = 0; i < this.type.length; i++) {
       for (let j = 0; j < this.type[i].length; j++) {
         if (this.type[i][j] != E) {
-          let nX = i + this.x;
-          let nY = j + this.y;
+          let nX = j + this.x;
+          let nY = i + this.y;
 
-          grid[nX][nY] = new PlacedPill(nX, nY, this.type[i][j]);
-          placedList.push([nX, nY]);
+          grid[nY][nX] = new PlacedPill(nX, nY, this.type[i][j]);
+          placedList.push([nY, nX]);
 
-          let nP = grid[nX][nY];
-          if (i == 1 && j == 0) {
-            nP.img = pillImgs[nP.col + 2];
-            if (this.type[0][0] == E) {
-              nP.rot = 270;
+          let nP = grid[nY][nX];
+          if (i == 0 && j == 0) {
+            //left image
+            nP.img = pillImgs[nP.col - 1];
+            if (this.type[1][0] != E) {
+              nP.rot = 90;
             }else{
               nP.rot = 0;
             }
           } else {
-            nP.img = pillImgs[nP.col - 1];
+            //right image
+            nP.img = pillImgs[nP.col + 2];
             if (i == 1) {
-              nP.rot = 270;
+              nP.rot = 90;
             }else{
               nP.rot = 0;
             }
@@ -168,22 +167,24 @@ class Pill {
     for (let i = 0; i < this.type.length; i++) {
       for (let j = 0; j < this.type[i].length; j++) {
         if (this.type[i][j] != E) {
-          let pX = (this.x + i) * s;
-          let pY = (this.y + j) * s;
+          let pX = (this.x + j) * s;
+          let pY = (this.y + i) * s;
 
           push();
           translate(pX + s / 2, pY + s / 2);
 
           let img;
-          if (i == 1 && j == 0) {
-            img = pillImgs[this.type[i][j] + 2]
-            if (this.type[0][0] == E) {
-              rotate(270);
+          if (i == 0 && j == 0) {
+            //left image
+            img = pillImgs[this.type[i][j] - 1]
+            if (this.type[1][0] != E) {
+              rotate(90);
             }
           } else {
-            img = pillImgs[this.type[i][j] - 1];
+            //right image
+            img = pillImgs[this.type[i][j] + 2];
             if (i == 1) {
-              rotate(270);
+              rotate(90);
             }
           }
 
@@ -208,18 +209,21 @@ class PlacedPill {
   }
 
   emptyBelow() {
-    if (this.y + 1 < gY && grid[this.x][this.y + 1] == E) {
-      return true;
-    }
-    if (this.connectedTo.y == this.y + 1) {
+    if (this.y + 1 < rows && grid[this.y + 1][this.x] == E) {
       return true;
     }
     return false;
   }
 
   checkDown() {
-    if (this.emptyBelow() && this.connectedTo instanceof PlacedPill && this.connectedTo.emptyBelow()) {
-      return true;
+    if (this.connectedTo.x != this.x){
+      if (this.emptyBelow() && this.connectedTo instanceof PlacedPill && this.connectedTo.emptyBelow()) {
+        return true;
+      }
+    }else{
+      if (this.emptyBelow() || (this.connectedTo instanceof PlacedPill && this.connectedTo.emptyBelow())) {
+        return true;
+      }
     }
   }
 

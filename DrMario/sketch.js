@@ -1,10 +1,10 @@
 var grid = [];
-var gX = 8;
-var gY = 16;
+var cols = 8;
+var rows = 16;
 var s;
 
 var colors;
-var numVirus = 5;
+var numVirus = 30;
 var cPill;
 
 var refreshRate = 23;
@@ -12,8 +12,6 @@ var refreshCounter = 0;
 
 var movePillsDown = false;
 var paused = false;
-
-const E = 0;
 
 var pillImgs = [];
 var virusImgs = [];
@@ -39,34 +37,18 @@ function preload() {
 }
 
 function setup() {
-  s = (windowHeight - 5) / gY;
-  while (s * gX * 3 > windowWidth - 5){
+  s = (windowHeight - 5) / rows;
+  while (s * cols * 3 > windowWidth - 5){
     s -= 1;
   }
 
-  createCanvas(s * gX * 3, s * gY);
+  createCanvas(s * cols * 3, s * rows);
   backgroundImg.resize(width, height);
 
   createGrid();
   colors = [color(100), color(255, 0, 0), color(255, 255, 0), color(135, 206, 235)];
 
   cPill = new Pill();
-}
-
-function createGrid() {
-  grid = [];
-  for (let i = 0; i < gX; i++) {
-    grid[i] = [];
-    for (let j = 0; j < gY; j++) {
-      grid[i][j] = E;
-    }
-  }
-
-  for (let i = 0; i < numVirus; i++) {
-    let x = int(random(gX));
-    let y = int(random(6, gY));
-    grid[x][y] = new Virus(x, y, int(random(1, 4)));
-  }
 }
 
 function inList(l, pos) {
@@ -82,13 +64,13 @@ function inBounds(x, y) {
   if (x < 0) {
     return false;
   }
-  if (x >= gX) {
+  if (x >= cols) {
     return false;
   }
   if (y < 0) {
     return false;
   }
-  if (y >= gY) {
+  if (y >= rows) {
     return false;
   }
 
@@ -109,11 +91,11 @@ function erasePills() {
       if (grid[i][j] != E && !inList(eraseList, [i, j])) {
         for (let dir of dirs) {
           let lineList = [[i, j]];
-          let nX = i + dir[0];
-          let nY = j + dir[1];
+          let nX = j + dir[0];
+          let nY = i + dir[1];
 
-          while (inBounds(nX, nY) && grid[nX][nY] != E && grid[nX][nY].col == grid[i][j].col) {
-            lineList.push([nX, nY]);
+          while (inBounds(nX, nY) && grid[nY][nX] != E && grid[nY][nX].col == grid[i][j].col) {
+            lineList.push([nY, nX]);
             nX += dir[0];
             nY += dir[1];
           }
@@ -136,8 +118,8 @@ function erasePills() {
 
 function dropPills() {
   let dropList = [];
-  for (let i = grid.length - 1; i >= 0; i--) {
-    for (let j = 0; j < grid[i].length; j++) {
+  for (let i = rows - 1; i >= 0; i --){
+    for (let j = 0; j < grid[i].length; j++){
       if (grid[i][j] instanceof PlacedPill && grid[i][j].checkDown()) {
         dropList.push([i, j]);
       }
@@ -149,13 +131,13 @@ function dropPills() {
     cPill = new Pill();
   } else {
     for (let pos of dropList) {
-      let x = pos[0];
-      let y = pos[1] + 1;
+      let y = pos[0] + 1;
+      let x = pos[1];
 
-      grid[x][y] = grid[x][y - 1];
-      grid[x][y].x = x;
-      grid[x][y].y = y;
-      grid[x][y - 1] = E;
+      grid[y][x] = grid[y - 1][x];
+      grid[y][x].y = y;
+      grid[y][x].x = x;
+      grid[y - 1][x] = E;
     }
   }
 }
@@ -163,7 +145,7 @@ function dropPills() {
 function drawGrid() {
   stroke(0);
   fill(0);
-  rect(0, 0, s * gX, s * gY);
+  rect(0, 0, s * cols, s * rows);
 
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[i].length; j++) {

@@ -4,7 +4,7 @@ var rows = 16;
 var s;
 
 var colors;
-var numVirus = 30;
+var numVirus = 10;
 var cPill;
 
 var refreshRate = 23;

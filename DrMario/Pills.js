@@ -6,9 +6,10 @@ class Pill {
     this.y = -1;
 
     this.type = [
-      [int(random(1, 4)), int(random(1, 4))],
+      [pills[0][0], pills[0][1]],
       [E, E]
     ];
+    pills.splice(0, 1);
   }
 
   rotate(clockwise) {
@@ -49,7 +50,7 @@ class Pill {
   }
 
   move() {
-    if (keyIsDown(UP_ARROW)) {
+    if (keyIsDown(UP_ARROW) && this.y >= 0) {
       if (keysReleased[0]) {
         this.rotate(true);
         keysReleased[0] = false;
@@ -58,7 +59,7 @@ class Pill {
       keysReleased[0] = true;
     }
 
-    if (keyIsDown(RIGHT_ARROW)) {
+    if (keyIsDown(RIGHT_ARROW) && this.y >= 0) {
       if (keysReleased[1]) {
         this.x += 1;
         keysReleased[1] = false;
@@ -70,7 +71,7 @@ class Pill {
     } else {
       keysReleased[1] = true;
     }
-    if (keyIsDown(LEFT_ARROW)) {
+    if (keyIsDown(LEFT_ARROW) && this.y >= 0) {
       if (keysReleased[2]) {
         this.x -= 1;
         keysReleased[2] = false;

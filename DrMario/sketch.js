@@ -20,15 +20,15 @@ var backgroundImg;
 function preload() {
   //L = left, R = Right
   //R = Red, Y = yellow, B = blue
-  pillImgs.push(loadImage('Images/LR.png'));
   pillImgs.push(loadImage('Images/LY.png'));
+  pillImgs.push(loadImage('Images/LR.png'));
   pillImgs.push(loadImage('Images/LB.png'));
-  pillImgs.push(loadImage('Images/RR.png'));
   pillImgs.push(loadImage('Images/RY.png'));
+  pillImgs.push(loadImage('Images/RR.png'));
   pillImgs.push(loadImage('Images/RB.png'));
 
-  virusImgs.push(loadImage('Images/RedVirus.png'));
   virusImgs.push(loadImage('Images/YellowVirus.png'));
+  virusImgs.push(loadImage('Images/RedVirus.png'));
   virusImgs.push(loadImage('Images/BlueVirus.png'));
 
   backgroundImg = loadImage('Images/background.png');

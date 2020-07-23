@@ -198,8 +198,6 @@ function generatePills(){
 }
 
 function randomGeneration(){
-  level = 5;
-
   let seed0 = str(int(random(0, 255)));
   let seed1 = str(int(random(0, 255)));
 
@@ -216,8 +214,9 @@ function randomGeneration(){
 
 function createGrid(){
   randomGeneration();
+  virusLeft = 0;
+  grid = [];
 
-  grid = []
   for (let i = 0; i < bottle.length; i++){
     grid[i] = [];
     for (let j = 0; j < bottle[i].length; j++){
@@ -225,6 +224,7 @@ function createGrid(){
         grid[i][j] = E;
       }else{
         grid[i][j] = new Virus(j, rows - i - 1, bottle[i][j]);
+        virusLeft += 1;
       }
     }
   }

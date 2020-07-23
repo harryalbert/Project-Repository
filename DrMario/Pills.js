@@ -190,7 +190,7 @@ class Pill {
           }
 
           imageMode(CENTER);
-          image(img, 0, 0, s, s);
+          image(img, 0, 0);
           pop();
         }
       }
@@ -217,8 +217,8 @@ class PlacedPill {
   }
 
   checkDown() {
-    if (this.connectedTo.x != this.x){
-      if (this.emptyBelow() && this.connectedTo instanceof PlacedPill && this.connectedTo.emptyBelow()) {
+    if (this.connectedTo instanceof PlacedPill && this.connectedTo.x != this.x){
+      if (this.emptyBelow() && this.connectedTo.emptyBelow()) {
         return true;
       }
     }else{
@@ -233,7 +233,7 @@ class PlacedPill {
     push();
     translate(this.x * s + s / 2, this.y * s + s / 2);
     rotate(this.rot);
-    image(this.img, 0, 0, s, s);
+    image(this.img, 0, 0);
     pop();
   }
 }
@@ -249,6 +249,6 @@ class Virus {
 
   show() {
     imageMode(CENTER);
-    image(this.img, this.x * s + s / 2, this.y * s + s / 2, s, s);
+    image(this.img, this.x * s + s / 2, this.y * s + s / 2);
   }
 }

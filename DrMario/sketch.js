@@ -5,50 +5,46 @@ var s;
 
 var colors;
 var numVirus = 10;
+var virusLeft = 0;
 var cPill;
 
-var refreshRate = 23;
+var speed = 1;
+var speedName;
+var refreshRate = 13 + speed * 5;
 var refreshCounter = 0;
 
 var movePillsDown = false;
 var paused = false;
 
-var pillImgs = [];
-var virusImgs = [];
-var backgroundImg;
-
-function preload() {
-  //L = left, R = Right
-  //R = Red, Y = yellow, B = blue
-  pillImgs.push(loadImage('Images/LY.png'));
-  pillImgs.push(loadImage('Images/LR.png'));
-  pillImgs.push(loadImage('Images/LB.png'));
-  pillImgs.push(loadImage('Images/RY.png'));
-  pillImgs.push(loadImage('Images/RR.png'));
-  pillImgs.push(loadImage('Images/RB.png'));
-
-  virusImgs.push(loadImage('Images/YellowVirus.png'));
-  virusImgs.push(loadImage('Images/RedVirus.png'));
-  virusImgs.push(loadImage('Images/BlueVirus.png'));
-
-  backgroundImg = loadImage('Images/background.png');
-
-  angleMode(DEGREES);
-}
+var level = 1;
+var score = 0;
 
 function setup() {
-  s = (windowHeight - 5) / rows;
-  while (s * cols * 3 > windowWidth - 5){
-    s -= 1;
+  if (windowWidth < windowHeight){
+    createCanvas(windowWidth - 5, windowWidth - 5);
+  }else{
+    createCanvas(windowHeight - 5, windowHeight - 5);
   }
+  s = width / 32;
 
-  createCanvas(s * cols * 3, s * rows);
-  backgroundImg.resize(width, height);
+  resizeImgs();
+  textFont(gameFont);
 
   createGrid();
   colors = [color(100), color(255, 0, 0), color(255, 255, 0), color(135, 206, 235)];
 
   cPill = new Pill();
+
+  switch(speed){
+    case 1:
+      speedName = 'LOW';
+      break;
+    case 2:
+      speedName = 'MED';
+      break;
+    case 3:
+      speedName = 'HI';
+  }
 }
 
 function inList(l, pos) {
@@ -111,9 +107,34 @@ function erasePills() {
     }
   }
 
+  let killedVirus = 0;
   for (let pos of eraseList) {
+    if (grid[pos[0]][pos[1]] instanceof Virus){
+      killedVirus += 1;
+    }
+
+    for (let i = 0; i < grid.length; i++){
+      for (let j = 0; j < grid[i].length; j++){
+        if (grid[i][j] instanceof PlacedPill && grid[i][j].connectedTo == grid[pos[0]][pos[1]]){
+          grid[i][j].connectedTo = undefined;
+        }
+      }
+    }
+
     grid[pos[0]][pos[1]] = E;
   }
+
+  if (killedVirus > 0){
+    virusLeft -= killedVirus;
+    if (killedVirus > 6){
+      killedVirus = 6;
+    }
+
+    let scoreMult = Math.pow(2, killedVirus - 1);
+    score += scoreMult * 100;
+    return true;
+  }
+  return false;
 }
 
 function dropPills() {
@@ -127,8 +148,15 @@ function dropPills() {
   }
 
   if (dropList.length == 0) {
-    movePillsDown = false;
-    cPill = new Pill();
+    if (!erasePills()){
+      movePillsDown = false;
+
+      if (checkLevelDone()){
+        nextLevel();
+      }else{
+        cPill = new Pill();
+      }
+    }
   } else {
     for (let pos of dropList) {
       let y = pos[0] + 1;
@@ -142,41 +170,29 @@ function dropPills() {
   }
 }
 
-function drawGrid() {
-  stroke(0);
-  fill(0);
-  rect(0, 0, s * cols, s * rows);
-
-  for (let i = 0; i < grid.length; i++) {
-    for (let j = 0; j < grid[i].length; j++) {
-      if (grid[i][j] != E) {
-        grid[i][j].show();
+function checkLevelDone(){
+  for (let i = 0; i < grid.length; i++){
+    for (let j = 0; j < grid[i].length; j++){
+      if (grid[i][j] instanceof Virus){
+        return false;
       }
     }
   }
+
+  return true;
 }
 
-function printGrid(){
-  let cGrid = [];
-  for (let i = 0; i < grid.length; i++){
-    cGrid[i] = [];
-    for (let j = 0; j < grid[i].length; j++){
-      if (grid[i][j] == E){
-        cGrid[i][j] = E;
-      }else{
-        cGrid[i][j] = grid[i][j].col;
-      }
-    }
-  }
-
-  console.table(cGrid);
+function nextLevel(){
+  level += 1;
+  createGrid();
+  cPill = new Pill();
 }
 
 function draw() {
-  image(backgroundImg, 0, 0);
+  drawUI();
 
   push();
-  translate(width / 3, 0);
+  translate(s * 12, s * 10);
   drawGrid();
 
   if (!paused){

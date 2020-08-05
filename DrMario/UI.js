@@ -1,6 +1,7 @@
 var pillImgs = [];
 var virusImgs = [];
-var backgroundImg, pillBottleImg, clipboardImg1, clipboardImg2, magnifyingGlassImg, pillBottleImg, titleImg, marioWindowImg;
+var backgroundImg, levelClearImg, gameOverImg, pillBottleImg, clipboardImg1, clipboardImg2, magnifyingGlassImg, pillBottleImg, titleImg, marioWindowImg, menuImg;
+var sounds = [];
 var gameFont;
 
 var clipboard1Y, clipboard2X, clipboard2Y, magnifyingGlassY, pillBottleX, pillBottleY, titleX, titleY, marioWindowX, marioWindowY;
@@ -20,6 +21,9 @@ function preload() {
   virusImgs.push(loadImage('assets/BlueVirus.png'));
 
   backgroundImg = loadImage('assets/background.png');
+  menuImg = loadImage('assets/menuBackground.png');
+  gameOverImg = loadImage('assets/menuBackground.png');
+  levelClearImg = loadImage('assets/nextLevel.png');
   pillBottleImg = loadImage('assets/PillBottle.png');
   clipboardImg1 = loadImage('assets/clipboard1.png');
   clipboardImg2 = loadImage('assets/clipboard2.png');
@@ -31,11 +35,23 @@ function preload() {
 
   gameFont = loadFont('assets/gameFont.ttf');
 
+  soundFormats('mp3');
+
+  sounds.push(loadSound('assets/SelectMenu.mp3'));
+  sounds.push(loadSound('assets/feverMain.mp3'));
+  sounds.push(loadSound('assets/feverClear.mp3'));
+  sounds.push(loadSound('assets/chillMain.mp3'));
+  sounds.push(loadSound('assets/chillClear.mp3'));
+  sounds.push(loadSound('assets/finalLevelClear.mp3'));
+  sounds.push(loadSound('assets/EndingTheme.mp3'));
+  sounds.push(loadSound('assets/gameOver.mp3'));
+
   angleMode(DEGREES);
 }
 
 function resizeImgs(){
   backgroundImg.resize(0, height);
+  menuImg.resize(0, height);
 
   for (let img of pillImgs){
     img.resize(s, s);

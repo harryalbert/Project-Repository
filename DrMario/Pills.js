@@ -85,7 +85,7 @@ class Pill {
     }
 
     if (keyIsDown(DOWN_ARROW)) {
-      refreshCounter += refreshRate / 8;
+      refreshCounter += speedTable[speedIndex] / 8;
     }
   }
 
@@ -226,6 +226,7 @@ class PlacedPill {
         return true;
       }
     }
+    return false;
   }
 
   show() {

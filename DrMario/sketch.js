@@ -1,41 +1,51 @@
+//Web based Dr Mario game (using NES accurate randomization)
+//by Harry Albert
 var grid = [];
 var cols = 8;
 var rows = 16;
-var s;
+var s; //size of one box in grid
 
-var colors;
 var numVirus = 10;
 var virusLeft = 0;
+var numKilled = 0;
 var cPill;
 
-var speed = 1;
-var speedName;
-var refreshRate = 13 + speed * 5;
+//table to show how quickly to drop pills (vitamins)
+var speedTable = [40, 38, 36, 34, 32, 30, 28, 26, 24, 22, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 10, 9, 9, 8, 8, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 5, 5, 5, 5, 5, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1];
+var speedTypes = [
+  [0, 49],
+  [10, 59],
+  [16, 65]
+];
+var speed = 2;
+var speedName, speedIndex;
 var refreshCounter = 0;
 
+var mainMenu = true;
 var movePillsDown = false;
 var paused = false;
 
-var level = 1;
+var level = 0;
 var score = 0;
 
 function setup() {
-  if (windowWidth < windowHeight){
+  if (windowWidth < windowHeight) {
     createCanvas(windowWidth - 5, windowWidth - 5);
-  }else{
+  } else {
     createCanvas(windowHeight - 5, windowHeight - 5);
   }
   s = width / 32;
 
   resizeImgs();
   textFont(gameFont);
+}
 
+function setupLevel() {
   createGrid();
-  colors = [color(100), color(255, 0, 0), color(255, 255, 0), color(135, 206, 235)];
-
   cPill = new Pill();
+  speedIndex = speedTypes[speed - 1][0];
 
-  switch(speed){
+  switch (speed) {
     case 1:
       speedName = 'LOW';
       break;
@@ -45,9 +55,12 @@ function setup() {
     case 3:
       speedName = 'HI';
   }
+  textAlign(LEFT, BOTTOM);
+  playSound(1 + (musicType - 1) * 2, true, true);
 }
 
 function inList(l, pos) {
+  //tells if a given position is in a given list
   for (let p of l) {
     if (p[0] == pos[0] && p[1] == pos[1]) {
       return true;
@@ -57,6 +70,7 @@ function inList(l, pos) {
 }
 
 function inBounds(x, y) {
+  //is position inbounds
   if (x < 0) {
     return false;
   }
@@ -74,8 +88,10 @@ function inBounds(x, y) {
 }
 
 function erasePills() {
+  //function to erase all pills/virus in a line
   let eraseList = [];
 
+  //directions to check
   let dirs = [
     [1, 0],
     [-1, 0],
@@ -84,9 +100,11 @@ function erasePills() {
   ];
   for (let i = 0; i < grid.length; i++) {
     for (let j = 0; j < grid[i].length; j++) {
-      if (grid[i][j] != E && !inList(eraseList, [i, j])) {
+      if (grid[i][j] != E && !inList(eraseList, [i, j])) { //if location is not empty and has not already been marked to erase
         for (let dir of dirs) {
-          let lineList = [[i, j]];
+          let lineList = [
+            [i, j]
+          ];
           let nX = j + dir[0];
           let nY = i + dir[1];
 
@@ -107,15 +125,15 @@ function erasePills() {
     }
   }
 
-  let killedVirus = 0;
+  let killedNow = 0;
   for (let pos of eraseList) {
-    if (grid[pos[0]][pos[1]] instanceof Virus){
-      killedVirus += 1;
+    if (grid[pos[0]][pos[1]] instanceof Virus) {
+      killedNow += 1;
     }
 
-    for (let i = 0; i < grid.length; i++){
-      for (let j = 0; j < grid[i].length; j++){
-        if (grid[i][j] instanceof PlacedPill && grid[i][j].connectedTo == grid[pos[0]][pos[1]]){
+    for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[i].length; j++) {
+        if (grid[i][j] instanceof PlacedPill && grid[i][j].connectedTo == grid[pos[0]][pos[1]]) {
           grid[i][j].connectedTo = undefined;
         }
       }
@@ -124,23 +142,19 @@ function erasePills() {
     grid[pos[0]][pos[1]] = E;
   }
 
-  if (killedVirus > 0){
-    virusLeft -= killedVirus;
-    if (killedVirus > 6){
-      killedVirus = 6;
-    }
-
-    let scoreMult = Math.pow(2, killedVirus - 1);
-    score += scoreMult * 100;
+  if (killedNow > 0) {
+    virusLeft -= killedNow;
+    numKilled += killedNow;
     return true;
   }
   return false;
 }
 
 function dropPills() {
+  //goes through and drops every pill that is able to be dropped
   let dropList = [];
-  for (let i = rows - 1; i >= 0; i --){
-    for (let j = 0; j < grid[i].length; j++){
+  for (let i = rows - 1; i >= 0; i--) {
+    for (let j = 0; j < grid[i].length; j++) {
       if (grid[i][j] instanceof PlacedPill && grid[i][j].checkDown()) {
         dropList.push([i, j]);
       }
@@ -148,12 +162,22 @@ function dropPills() {
   }
 
   if (dropList.length == 0) {
-    if (!erasePills()){
+    if (!erasePills()) {
       movePillsDown = false;
 
-      if (checkLevelDone()){
+      if (numKilled > 0) {
+        if (numKilled > 6) {
+          numKilled = 6;
+        }
+
+        let scoreMult = Math.pow(2, numKilled - 1);
+        score += scoreMult * 100;
+      }
+      numKilled = 0;
+
+      if (checkLevelDone()) {
         nextLevel();
-      }else{
+      } else {
         cPill = new Pill();
       }
     }
@@ -170,10 +194,10 @@ function dropPills() {
   }
 }
 
-function checkLevelDone(){
-  for (let i = 0; i < grid.length; i++){
-    for (let j = 0; j < grid[i].length; j++){
-      if (grid[i][j] instanceof Virus){
+function checkLevelDone() {
+  for (let i = 0; i < grid.length; i++) {
+    for (let j = 0; j < grid[i].length; j++) {
+      if (grid[i][j] instanceof Virus) {
         return false;
       }
     }
@@ -182,39 +206,63 @@ function checkLevelDone(){
   return true;
 }
 
-function nextLevel(){
+function nextLevel() {
   level += 1;
-  createGrid();
-  cPill = new Pill();
+  setupLevel();
 }
 
 function draw() {
-  drawUI();
+  if (mainMenu) {
+    menuUI();
+  } else {
+    drawUI();
 
-  push();
-  translate(s * 12, s * 10);
-  drawGrid();
+    push();
+    translate(s * 12, s * 10);
+    drawGrid();
 
-  if (!paused){
-    refreshCounter += 1;
-    if (refreshCounter >= refreshRate) {
-      if (movePillsDown) {
-        dropPills();
-      } else {
-        cPill.update();
+    if (!paused) {
+      refreshCounter += 1;
+      if (refreshCounter >= speedTable[speedIndex]) {
+        if (movePillsDown) {
+          dropPills();
+        } else {
+          cPill.update();
+        }
+        refreshCounter = 0;
       }
-      refreshCounter = 0;
+    }
+
+    if (!movePillsDown) {
+      cPill.show();
+    }
+    pop();
+  }
+}
+
+function playSound(soundIndex, stop) {
+  if (musicType == 0) return;
+
+  if (stop) {
+    for (let i = 0; i < sounds.length; i++) {
+      if (sounds[i].isLooping() || sounds[i].isPlaying()) {
+        sounds[i].stop();
+      }
     }
   }
 
-  if (!movePillsDown) {
-    cPill.show();
+  if (sounds[soundIndex].isLooping() || sounds[soundIndex].isPlaying()){
+    sounds[soundIndex].stop();
   }
-  pop();
+  if (loop) {
+    sounds[soundIndex].loop();
+  } else {
+    sounds[soundIndex].play();
+  }
 }
 
-function keyTyped(){
-  if (key == 'p'){
+function keyTyped() {
+  if (key == 'p') {
     paused = !paused;
   }
 }

@@ -29,6 +29,7 @@ var level = 0;
 var score = 0;
 
 function setup() {
+  console.log("Press 's' to input your own seed");
   if (windowWidth < windowHeight) {
     createCanvas(windowWidth - 5, windowWidth - 5);
   } else {
@@ -266,7 +267,6 @@ function keyTyped() {
     paused = !paused;
   }
   if (key == 's' && !manualSeeds && mainMenu){
-    console.log(1);
     seedInput1 = createInput();
     seedInput2 = createInput();
 

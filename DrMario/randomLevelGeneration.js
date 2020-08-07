@@ -198,8 +198,14 @@ function generatePills(){
 }
 
 function randomGeneration(){
-  let seed0 = str(int(random(0, 255)));
-  let seed1 = str(int(random(0, 255)));
+  let seed0, seed1;
+  if (userSeeds.length > 0){
+    seed0 = userSeeds[0];
+    seed1 = userSeeds[1];
+  }else{
+    seed0 = str(int(random(0, 255)));
+    seed1 = str(int(random(0, 255)));
+  }
 
   let seed = 256 * parseInt(seed0, 16) + parseInt(seed1, 16);
 

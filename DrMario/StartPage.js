@@ -1,6 +1,10 @@
 var selectedOption = [true, false, false];
 var musicType = 0;
 
+var manualSeeds = false;
+var seedInput1, seedInput2;
+var userSeeds = [];
+
 function menuUI() {
   background(menuImg);
 
@@ -185,5 +189,19 @@ function keyPressed() {
       mainMenu = false;
       setupLevel();
     }
+  }
+}
+
+function input1(){
+  let newValue = int(this.value());
+  if (!isNaN(newValue) && newValue >= 0 && newValue <= 255){
+    userSeeds[0] = newValue
+  }
+}
+
+function input2(){
+  let newValue = int(this.value());
+  if (!isNaN(newValue) && newValue >= 0 && newValue <= 255){
+    userSeeds[1] = newValue;
   }
 }

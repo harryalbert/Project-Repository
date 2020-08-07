@@ -265,4 +265,17 @@ function keyTyped() {
   if (key == 'p') {
     paused = !paused;
   }
+  if (key == 's' && !manualSeeds && mainMenu){
+    console.log(1);
+    seedInput1 = createInput();
+    seedInput2 = createInput();
+
+    seedInput1.input(input1);
+    seedInput2.input(input2);
+    userSeeds[0] = int(random(255));
+    userSeeds[1] = int(random(255));
+    seedInput1.value(userSeeds[0]);
+    seedInput2.value(userSeeds[1]);
+    manualSeeds = true;
+  }
 }

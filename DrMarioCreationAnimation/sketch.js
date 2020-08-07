@@ -12,13 +12,15 @@ var creatingLevel = true;
 var numRemaining;
 
 var virusImgs = [];
+var pillImgs = [];
 var displayPills = [];
 var seedInput1, seedInput2, seedButton, seedExplainP;
 var seed1, seed2;
 var levelSlider;
 
 function preload() {
-  virusImgs = [loadImage('assets/yellowPill.png'), loadImage('assets/redPill.png'), loadImage('assets/bluePill.png')];
+  pillImgs = [loadImage('assets/yellowPill.png'), loadImage('assets/redPill.png'), loadImage('assets/bluePill.png')];
+  virusImgs = [loadImage('assets/yellowVirus.png'), loadImage('assets/redVirus.png'), loadImage('assets/blueVirus.png')]
   frameRate(3);
 }
 
@@ -85,6 +87,9 @@ function resizeImgs(){
   for (let v of virusImgs){
     v.resize(s, s);
   }
+  for (let p of pillImgs){
+    p.resize(s, s);
+  }
 }
 
 function nextLevel() {
@@ -147,8 +152,8 @@ class displayPill{
     stroke(255);
     fill(255);
     text(str(this.num), s * cols, this.y + offset);
-    image(virusImgs[this.left - 1], s * cols + s + textWidth(str(this.num)) / 2, this.y + offset);
-    image(virusImgs[this.right - 1], s * cols + 2 * s + textWidth(str(this.num)) / 2, this.y + offset);
+    image(pillImgs[this.left - 1], s * cols + s + textWidth(str(this.num)) / 2, this.y + offset);
+    image(pillImgs[this.right - 1], s * cols + 2 * s + textWidth(str(this.num)) / 2, this.y + offset);
   }
 }
 

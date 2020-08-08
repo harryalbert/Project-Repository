@@ -1,8 +1,13 @@
 var selectedBox = [];
 var checking = [];
+var problemSpace = [];
 var orderedCols, orderedColsCopy, curCol, numRemaining;
+var updateDelay = 20;
+var updateCounter = 0;
+var shiftDelayed = false;
 
 function generateGrid() {
+  updateDelay = 20;
   if (pills.length == 0) {
     randomInit(256 * parseInt(seed1, 16) + parseInt(seed2, 16));
     setGlobals();
@@ -14,12 +19,23 @@ function generateGrid() {
   if (isMaximal()) return false;
   if (numRemaining <= 0) return false;
 
+  if (problemSpace.length > 0) {
+    problemSpace = [];
+    orderedCols.splice(0, 1);
+    if (orderedCols.length == 0) {
+      orderedCols = [...orderedColsCopy];
+      return shiftBox();
+    }
+    return true;
+  }
+
   if (selectedBox.length == 0) {
     let row = randomRow(virRows - 1);
     let col = randomCol()
     selectedBox = [col, row];
     getChecking();
     getColOrder();
+    shiftDelayed = false;
 
     return true;
   }
@@ -29,18 +45,15 @@ function generateGrid() {
   }
 
   curCol = orderedCols[0];
-  if (colorIsAvailable(selectedBox[0], selectedBox[1], curCol)) {
+  let cNotAvailable = colorIsAvailable(selectedBox[0], selectedBox[1], curCol);
+  if (!cNotAvailable) {
     grid[selectedBox[1]][selectedBox[0]] = curCol;
     selectedBox = [];
     numRemaining -= 1;
 
     return true;
   } else {
-    orderedCols.splice(0, 1);
-    if (orderedCols.length == 0) {
-      orderedCols = [...orderedColsCopy];
-      return shiftBox();
-    }
+    problemSpace = cNotAvailable;
 
     return true;
   }
@@ -59,6 +72,12 @@ function shiftBox() {
   }
 
   getChecking();
+
+  if (!shiftDelayed) {
+    sleep(300);
+    shiftDelayed = true;
+  }
+
   return true;
 }
 
@@ -93,4 +112,12 @@ function getColOrder() {
   else if (preferredCol == 1) orderedCols = [2, 1, 3];
   else orderedCols = [3, 2, 1];
   orderedColsCopy = [...orderedCols];
+}
+
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
 }

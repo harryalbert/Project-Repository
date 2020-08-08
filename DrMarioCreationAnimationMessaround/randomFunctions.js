@@ -82,22 +82,20 @@ function isMaximal(){
 
 function available(x, y){
   for (let c of Colors){
-    if (colorIsAvailable(x, y, c)) return true;
+    if (!colorIsAvailable(x, y, c)) return true;
   }
 
   return false;
 }
 
 function colorIsAvailable(x, y, c){
-  if (grid[y][x] != E) return false;
+  if (x - 2 >= 0 && grid[y][x - 2] == c) return [x - 2, y];
+  if (x + 2 < cols && grid[y][x + 2] == c) return [x + 2, y];
 
-  if (x - 2 >= 0 && grid[y][x - 2] == c) return false;
-  if (x + 2 < cols && grid[y][x + 2] == c) return false;
+  if (y - 2 >= 0 && grid[y - 2][x] == c) return [x, y - 2];
+  if (y + 2 < rows && grid[y + 2][x] == c) return [x, y + 2];
 
-  if (y - 2 >= 0 && grid[y - 2][x] == c) return false;
-  if (y + 2 < rows && grid[y + 2][x] == c) return false;
-
-  return true;
+  return false;
 }
 
 function initPills(){

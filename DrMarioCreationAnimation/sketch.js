@@ -21,12 +21,11 @@ var levelSlider;
 function preload() {
   pillImgs = [loadImage('assets/yellowPill.png'), loadImage('assets/redPill.png'), loadImage('assets/bluePill.png')];
   virusImgs = [loadImage('assets/yellowVirus.png'), loadImage('assets/redVirus.png'), loadImage('assets/blueVirus.png')]
-  frameRate(3);
 }
 
 function setup() {
   s = (windowHeight - 80) / rows;
-  while (s * cols > (windowWidth - 80)){
+  while (s * cols > (windowWidth - 80)) {
     s -= 1;
   }
   createCanvas(s * cols + (4 * s), s * rows);
@@ -50,18 +49,18 @@ function setup() {
   resetGrid();
 }
 
-function input1(){
+function input1() {
   let newValue = int(this.value());
-  if (!isNaN(newValue) && newValue >= 0 && newValue <= 255){
+  if (!isNaN(newValue) && newValue >= 0 && newValue <= 255) {
     seed1 = newValue
   }
   creatingLevel = true;
   resetGrid();
 }
 
-function input2(){
+function input2() {
   let newValue = int(this.value());
-  if (!isNaN(newValue) && newValue >= 0 && newValue <= 255){
+  if (!isNaN(newValue) && newValue >= 0 && newValue <= 255) {
     seed2 = newValue;
   }
   creatingLevel = true;
@@ -69,12 +68,13 @@ function input2(){
 }
 
 var added1 = false;
-function incrementSeed(){
-  if (!added1){
+
+function incrementSeed() {
+  if (!added1) {
     seed1 += 1;
     seedInput1.value(seed1);
     added1 = true;
-  }else{
+  } else {
     seed2 += 1;
     seedInput2.value(seed2);
     added1 = false;
@@ -83,11 +83,11 @@ function incrementSeed(){
   resetGrid();
 }
 
-function resizeImgs(){
-  for (let v of virusImgs){
+function resizeImgs() {
+  for (let v of virusImgs) {
     v.resize(s, s);
   }
-  for (let p of pillImgs){
+  for (let p of pillImgs) {
     p.resize(s, s);
   }
 }
@@ -98,7 +98,12 @@ function nextLevel() {
   resetGrid();
 }
 
-var virColors = [[255, 255, 0], [255, 0, 0], [0, 0, 255]];
+var virColors = [
+  [255, 255, 0],
+  [255, 0, 0],
+  [0, 0, 255]
+];
+
 function drawGrid() {
   stroke(0);
   fill(0);
@@ -112,12 +117,29 @@ function drawGrid() {
     }
   }
 
-  if (selectedBox.length != 0){
+  if (selectedBox.length != 0) {
     let c = virColors[orderedCols[0] - 1];
     stroke(c[0], c[1], c[2]);
     fill(c[0], c[1], c[2], 100);
     strokeWeight(2);
     rect(selectedBox[0] * s, (rows - selectedBox[1] - 1) * s, s, s);
+
+    stroke(255);
+    fill(100, 100);
+    for (let c of checking) {
+      let problematic = false;
+      if (c[0] == problemSpace[0] && c[1] == problemSpace[1]) {
+        stroke(255, 0, 255);
+        fill(255, 0, 255, 100);
+        problematic = true;
+      }
+      rect(c[0] * s, (rows - c[1] - 1) * s, s, s)
+      if (problematic) {
+        stroke(255);
+        fill(100, 100);
+      }
+    }
+
     strokeWeight(1);
   }
 }
@@ -125,30 +147,32 @@ function drawGrid() {
 function draw() {
   background(50);
   seedExplainP.html("Input to change starting seed");
-  if (level != levelSlider.value()){
+  if (level != levelSlider.value()) {
     level = levelSlider.value();
     creatingLevel = true;
     resetGrid();
   }
 
-  if (creatingLevel){
+  updateCounter += 1;
+  if (creatingLevel && updateCounter >= updateDelay) {
+    updateCounter = 0;
     creatingLevel = generateGrid();
   }
   drawGrid();
-  for (let i = displayPills.length - 1; i >= 0; i--){
+  for (let i = displayPills.length - 1; i >= 0; i--) {
     displayPills[i].show();
   }
 }
 
-class displayPill{
-  constructor(y, l, r, num){
+class displayPill {
+  constructor(y, l, r, num) {
     this.y = y;
     this.num = num;
     this.left = l;
     this.right = r;
   }
 
-  show(){
+  show() {
     stroke(255);
     fill(255);
     text(str(this.num), s * cols, this.y + offset);
@@ -157,15 +181,17 @@ class displayPill{
   }
 }
 
-function mouseWheel(event){
-  offset -= event.delta;
+function mouseWheel(event) {
+  if (mouseX >= 2 * width / 3 && mouseX <= width) {
+    offset -= event.delta;
 
-  if ((offset / height) < (-10326 / 937)){
-    offset = (-10326 / 937) * height;
-  }
+    if ((offset / height) < (-10326 / 937)) {
+      offset = (-10326 / 937) * height;
+    }
 
-  if (offset > 0){
-    offset = 0;
+    if (offset > 0) {
+      offset = 0;
+    }
   }
 
   return false;

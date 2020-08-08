@@ -63,16 +63,16 @@ function setGlobals() {
   cols = 8;
 
   virRows = 10;
-  if (level >= 15) virRows+= 1;
-  if (level >= 17) virRows+= 1;
-  if (level >= 19) virRows+= 1;
+  if (level >= 15) virRows += 1;
+  if (level >= 17) virRows += 1;
+  if (level >= 19) virRows += 1;
 
   virGoal = (level + 1) * 4;
 }
 
-function isMaximal(){
-  for (let i = 0; i < rows; i++){
-    for (let j = 0; j < cols; j++){
+function isMaximal() {
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
       if (available(j, i)) return false;
     }
   }
@@ -80,38 +80,46 @@ function isMaximal(){
   return true;
 }
 
-function available(x, y){
-  for (let c of Colors){
-    if (colorIsAvailable(x, y, c)) return true;
+function available(x, y) {
+  for (let c of Colors) {
+    if (!colorIsAvailable(x, y, c)) return true;
   }
 
   return false;
 }
 
-function colorIsAvailable(x, y, c){
-  if (grid[y][x] != E) return false;
+function colorIsAvailable(x, y, c) {
+  if (x - 2 >= 0 && grid[y][x - 2] == c) return [x - 2, y];
+  if (x + 2 < cols && grid[y][x + 2] == c) return [x + 2, y];
 
-  if (x - 2 >= 0 && grid[y][x - 2] == c) return false;
-  if (x + 2 < cols && grid[y][x + 2] == c) return false;
+  if (y - 2 >= 0 && grid[y - 2][x] == c) return [x, y - 2];
+  if (y + 2 < rows && grid[y + 2][x] == c) return [x, y + 2];
 
-  if (y - 2 >= 0 && grid[y - 2][x] == c) return false;
-  if (y + 2 < rows && grid[y + 2][x] == c) return false;
-
-  return true;
+  return false;
 }
 
-function initPills(){
+function initPills() {
   pills = [];
 }
 
-function generatePills(){
-  pillTypes = [[Y, Y], [Y, R], [Y, B], [R, Y], [R, B], [R, B], [B, Y], [B, R], [B, B]];
+function generatePills() {
+  pillTypes = [
+    [Y, Y],
+    [Y, R],
+    [Y, B],
+    [R, Y],
+    [R, B],
+    [R, B],
+    [B, Y],
+    [B, R],
+    [B, B]
+  ];
   pills = [];
 
   let type = 0;
-  for (let i = 0; i < 128; i++){
+  for (let i = 0; i < 128; i++) {
     randomIncrement();
-    type += 8*state[4] + 4*state[5] + 2*state[6] + 1*state[7]
+    type += 8 * state[4] + 4 * state[5] + 2 * state[6] + 1 * state[7]
     type %= 9;
 
     pill = pillTypes[type];
@@ -123,7 +131,7 @@ function generatePills(){
 
   displayPills = [];
   let y = s / 2;
-  for (i = 0; i < pills.length; i++){
+  for (i = 0; i < pills.length; i++) {
     displayPills.push(new displayPill(y, pills[i][0], pills[i][1], i));
     y += s * (3 / 2);
   }
@@ -131,15 +139,15 @@ function generatePills(){
   return pills;
 }
 
-function resetGrid(){
+function resetGrid() {
   grid = [];
   pills = [];
   selectedBox = [];
   numVirus = virGoal;
 
-  for (let i = 0; i < rows; i++){
+  for (let i = 0; i < rows; i++) {
     grid[i] = [];
-    for (let j = 0; j < cols; j++){
+    for (let j = 0; j < cols; j++) {
       grid[i][j] = E;
     }
   }

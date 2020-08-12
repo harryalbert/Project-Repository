@@ -20,7 +20,7 @@ var levelSlider;
 
 function preload() {
   pillImgs = [loadImage('assets/yellowPill.png'), loadImage('assets/redPill.png'), loadImage('assets/bluePill.png')];
-  virusImgs = [loadImage('assets/yellowVirus.png'), loadImage('assets/redVirus.png'), loadImage('assets/blueVirus.png')]
+  virusImgs = [loadImage('assets/YellowVirus.png'), loadImage('assets/RedVirus.png'), loadImage('assets/BlueVirus.png')]
 }
 
 function setup() {

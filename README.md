@@ -34,4 +34,11 @@
 
 [Random Traversal Maze Generator/Solver](https://harryalbert.github.io/Project-Repository/randomTraversalMaze/)
 
+### Dr. Mario
+[Dr. Mario](https://harryalbert.github.io/Project-Repository/DrMario/)
+
+[Dr. Mario Level Viewer](https://harryalbert.github.io/Project-Repository/DrMarioSpeedrunViewer/)
+
+[Dr. Mario Level Creation Animation](https://harryalbert.github.io/Project-Repository/DrMarioCreationAnimation/)
+
 ###### All projects coded by Harry Albert

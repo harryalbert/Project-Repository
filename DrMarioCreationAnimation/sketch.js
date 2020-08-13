@@ -24,11 +24,11 @@ function preload() {
 }
 
 function setup() {
-  s = (windowHeight - 80) / rows;
-  while (s * cols > (windowWidth - 80)) {
+  s = (windowHeight - 180) / rows;
+  while (s * cols > (windowWidth - 180)) {
     s -= 1;
   }
-  createCanvas(s * cols + (4 * s), s * rows);
+  createCanvas(s * cols + (4 * s), s * rows + (2 * s));
 
   seed1 = int(random(255));
   seed2 = int(random(255));
@@ -52,7 +52,7 @@ function setup() {
 function input1() {
   let newValue = int(this.value());
   if (!isNaN(newValue) && newValue >= 0 && newValue <= 255) {
-    seed1 = newValue
+    seed1 = newValue;
   }
   creatingLevel = true;
   resetGrid();
@@ -144,6 +144,38 @@ function drawGrid() {
   }
 }
 
+var previousState, textState, stateTextSize;
+function drawState(){
+  stroke(0);
+  fill(0);
+  if (previousState != state){
+    previousState = [...state];
+    textState = '[';
+    for (let i = 0; i < state.length; i++){
+      textState += str(state[i]);
+    }
+    textState += ']';
+  }
+
+  if (textState){
+    push();
+    switch (state.length){
+      case 16:
+        textSize(s * 1.3);
+        break;
+      case 17:
+        textSize(s * 1.2);
+        break;
+      case 18:
+        textSize(s * 1.15);
+        break;
+    }
+    textAlign(CENTER, TOP);
+    text(textState, width / 2, height - 1.5 * s);
+    pop();
+  }
+}
+
 function draw() {
   background(50);
   seedExplainP.html("Input to change starting seed");
@@ -162,6 +194,11 @@ function draw() {
   for (let i = displayPills.length - 1; i >= 0; i--) {
     displayPills[i].show();
   }
+
+  stroke(200);
+  fill(200);
+  rect(0, height - 2 * s, width, 2 * s);
+  drawState();
 }
 
 class displayPill {
@@ -173,11 +210,13 @@ class displayPill {
   }
 
   show() {
-    stroke(255);
-    fill(255);
-    text(str(this.num), s * cols, this.y + offset);
-    image(pillImgs[this.left - 1], s * cols + s + textWidth(str(this.num)) / 2, this.y + offset);
-    image(pillImgs[this.right - 1], s * cols + 2 * s + textWidth(str(this.num)) / 2, this.y + offset);
+    if (this.y + offset < height - (2 * s)){
+      stroke(255);
+      fill(255);
+      text(str(this.num), s * cols, this.y + offset);
+      image(pillImgs[this.left - 1], s * cols + s + textWidth(str(this.num)) / 2, this.y + offset);
+      image(pillImgs[this.right - 1], s * cols + 2 * s + textWidth(str(this.num)) / 2, this.y + offset);
+    }
   }
 }
 

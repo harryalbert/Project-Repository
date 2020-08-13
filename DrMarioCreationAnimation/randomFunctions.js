@@ -20,6 +20,7 @@ function randomInit(seed) {
   for (let i = 0; i < numZeros; i++) {
     state.unshift(0);
   }
+  console.log(state);
 }
 
 function randomIncrement() {
@@ -48,13 +49,13 @@ function randomRow(maxValue = 15) {
 }
 
 function randomCol() {
-  let value = 4 * state[13] + 2 * state[14] + state[15]
+  let value = 4 * state[13] + 2 * state[14] + state[15];
   return value;
 }
 
 function randomIndex() {
   randomIncrement();
-  value = 8 * state[12] + 4 * state[13] + 2 * state[14] + state[15]
+  value = 8 * state[12] + 4 * state[13] + 2 * state[14] + state[15];
   return value;
 }
 

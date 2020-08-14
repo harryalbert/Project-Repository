@@ -20,7 +20,6 @@ function randomInit(seed) {
   for (let i = 0; i < numZeros; i++) {
     state.unshift(0);
   }
-  console.log(state);
 }
 
 function randomIncrement() {

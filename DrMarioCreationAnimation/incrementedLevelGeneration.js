@@ -5,6 +5,8 @@ var orderedCols, orderedColsCopy, curCol, numRemaining;
 var updateDelay = 20;
 var updateCounter = 0;
 var shiftDelayed = false;
+var colorDelayed = false;
+var colorDelay = false;
 
 function generateGrid() {
   if (pills.length == 0) {
@@ -34,7 +36,9 @@ function generateGrid() {
     selectedBox = [col, row];
     getChecking();
     getColOrder();
+
     shiftDelayed = false;
+    colorDelayed = false;
 
     return true;
   }

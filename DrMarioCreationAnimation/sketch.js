@@ -17,6 +17,7 @@ var displayPills = [];
 var seedInput1, seedInput2, seedButton, seedExplainP;
 var seed1, seed2;
 var levelSlider;
+var speedSlider;
 
 function preload() {
   pillImgs = [loadImage('assets/yellowPill.png'), loadImage('assets/redPill.png'), loadImage('assets/bluePill.png')];
@@ -24,11 +25,11 @@ function preload() {
 }
 
 function setup() {
-  s = (windowHeight - 180) / rows;
-  while (s * cols > (windowWidth - 180)) {
+  s = (windowHeight - 100) / rows;
+  while (s * cols > (windowWidth - 100)) {
     s -= 1;
   }
-  createCanvas(s * cols + (4 * s), s * rows + (2 * s));
+  createCanvas(s * cols + (4 * s), s * rows);
 
   seed1 = int(random(255));
   seed2 = int(random(255));
@@ -45,6 +46,7 @@ function setup() {
   seedInput1.input(input1);
   seedInput2.input(input2);
   levelSlider = createSlider(0, 20, 0, 1);
+  speedSlider = createSlider(1, 40, 30, 1);
 
   resetGrid();
 }
@@ -144,39 +146,15 @@ function drawGrid() {
   }
 }
 
-var previousState, textState, stateTextSize;
-function drawState(){
-  stroke(0);
-  fill(0);
-  if (previousState != state){
-    previousState = [...state];
-    textState = '[';
-    for (let i = 0; i < state.length; i++){
-      textState += str(state[i]);
-    }
-    textState += ']';
-  }
-
-  if (textState){
-    push();
-    switch (state.length){
-      case 16:
-        textSize(s * 1.3);
-        break;
-      case 17:
-        textSize(s * 1.2);
-        break;
-      case 18:
-        textSize(s * 1.15);
-        break;
-    }
-    textAlign(CENTER, TOP);
-    text(textState, width / 2, height - 1.5 * s);
-    pop();
-  }
-}
-
 function draw() {
+  if (speedSlider.value() != updateDelay) updateDelay = speedSlider.value();
+
+  if (colorDelay && !colorDelayed){
+    colorDelay = false;
+    colorDelayed = true;
+    sleep(300);
+  }
+
   background(50);
   seedExplainP.html("Input to change starting seed");
   if (level != levelSlider.value()) {
@@ -195,10 +173,9 @@ function draw() {
     displayPills[i].show();
   }
 
-  stroke(200);
-  fill(200);
-  rect(0, height - 2 * s, width, 2 * s);
-  drawState();
+  if (problemSpace.length > 0){
+    colorDelay = true;
+  }
 }
 
 class displayPill {
@@ -210,7 +187,7 @@ class displayPill {
   }
 
   show() {
-    if (this.y + offset < height - (2 * s)){
+    if (this.y + offset < height){
       stroke(255);
       fill(255);
       text(str(this.num), s * cols, this.y + offset);
@@ -231,7 +208,6 @@ function mouseWheel(event) {
     if (offset > 0) {
       offset = 0;
     }
+    return false;
   }
-
-  return false;
 }

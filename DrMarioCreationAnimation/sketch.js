@@ -23,7 +23,8 @@ var virColors = [
   [0, 0, 255]
 ];//rgb colors for each virus
 
-var seedInput1, seedInput2, seedButton, explanationP; //variables for user seed input
+var seedInput1, seedInput2, seedButton, explanationP, spacer; //variables for user seed input
+var inputElem1, inputElem2;
 var seed1, seed2;
 
 var levelSlider; //slider for level number
@@ -36,8 +37,8 @@ function preload() {
 
 function setup() {
   //set max box size, then set window size based on that
-  s = (windowHeight - 100) / rows;
-  while (s * cols > (windowWidth - 100)) {
+  s = (windowHeight - 125) / rows;
+  while (s * cols > (windowWidth - 125)) {
     s -= 1;
   }
   createCanvas(s * cols + (4 * s), s * rows);
@@ -49,7 +50,8 @@ function setup() {
   seed1 = int(random(255));
   seed2 = int(random(255));
 
-  explanationP = createP(); //blurb explaining sliders
+  spacer = createP();
+
   seedButton = createButton('increment seed');
   seedButton.mousePressed(incrementSeed)
 
@@ -58,24 +60,48 @@ function setup() {
   seedInput1.input(input1);
   seedInput2.input(input2);
 
+  inputElem1 = new p5.Element(seedInput1.elt);
+  inputElem1.style('width:20px;');
+  inputElem2 = new p5.Element(seedInput2.elt);
+  inputElem2.style('width:20px;');
+
+  explanationP = createP(); //blurb explaining sliders
+
   levelSlider = createSlider(0, 20, 0, 1);
-  speedSlider = createSlider(1, 40, 30, 1);
+  speedSlider = createSlider(1, 40, 10, 1);
 
   resetGrid();
 }
 
 function input1() {
   //changes seed1 to user inputted seed
+  let c = false;
+  while (this.value().length > 3){
+    let nVal = this.value();
+    this.value(nVal.slice(0, -1));
+    c = true;
+  }
+  if (c) return;
+
   let newValue = int(this.value());
   if (!isNaN(newValue) && newValue >= 0 && newValue <= 255) {
     seed1 = newValue;
   }
+
   creatingLevel = true;
   resetGrid();
 }
 
 function input2() {
   //changes seed2 to user inputted seed
+  let c = false;
+  while (this.value().length > 3){
+    let nVal = this.value();
+    this.value(nVal.slice(0, -1));
+    c = true;
+  }
+  if (c) return;
+
   let newValue = int(this.value());
   if (!isNaN(newValue) && newValue >= 0 && newValue <= 255) {
     seed2 = newValue;
@@ -157,10 +183,10 @@ function drawGrid() {
 
 function draw() {
   background(50);
-  explanationP.html("level: " + level.toString() + ", Speed: " + (41 - updateDelay).toString());
+  explanationP.html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;level: " + level.toString() + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Speed: " + (41 - updateDelay).toString());
 
   //changes refresh rate if slider is changed
-  if (speedSlider.value() != updateDelay) updateDelay = speedSlider.value();
+  if (speedSlider.value() != updateDelay) updateDelay = 41 - speedSlider.value();
 
   //pauses alg for the first switch in color for a new space
   if (colorDelay && !colorDelayed){
@@ -193,6 +219,9 @@ function draw() {
   if (problemSpace.length > 0){
     colorDelay = true;
   }
+
+  stroke(0, 255, 0);
+  line(0, s * (rows - virRows), s * cols, s * (rows - virRows));
 }
 
 class displayPill {

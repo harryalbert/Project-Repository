@@ -49,7 +49,7 @@ function setup() {
   seed1 = int(random(255));
   seed2 = int(random(255));
 
-  explanationP = createP(); //blurb explaining seed input
+  explanationP = createP(); //blurb explaining sliders
   seedButton = createButton('increment seed');
   seedButton.mousePressed(incrementSeed)
 
